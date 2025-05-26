@@ -72,6 +72,60 @@
   outline: none;
 }
 
+/* Sökfält i navbar */
+.desktop-search {
+  margin-left: 1.5rem;
+  width: 280px;
+  position: relative;
+}
+
+.navbar-search {
+  position: relative;
+  width: 100%;
+}
+
+.navbar-search-field {
+  width: 100%;
+}
+
+.navbar-search-field input {
+  font-size: 0.9rem;
+}
+
+.navbar-search-field .MuiFormHelperText-root {
+  position: absolute;
+  bottom: -20px;
+  font-size: 0.7rem;
+}
+
+/* Sökresultat dropdown */
+.search-results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 5px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1100;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.search-results-dropdown .MuiList-root {
+  padding: 0;
+}
+
+.search-results-dropdown .MuiListItem-root {
+  padding: 8px 16px;
+}
+
+.mobile-search {
+  display: none;
+}
+
 .mobile-menu-btn {
   display: none;
   background: none;
@@ -168,5 +222,29 @@
     width: 100%;
     height: 2px;
     background-color: var(--primary-color);
+  }
+  
+  /* Sök i mobilmenyn */
+  .desktop-search {
+    display: none;
+  }
+  
+  .mobile-search {
+    display: block;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: relative;
+  }
+  
+  .mobile-search .navbar-search-field {
+    width: 100%;
+  }
+  
+  .mobile-search .search-results-dropdown {
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
   }
 } 

@@ -22,20 +22,10 @@ const Footer = () => {
               <li><a href="#contact" aria-label="Gå till kontakt sektionen">Kontakt</a></li>
             </ul>
           </div>
-          
-          <div className="footer-contact">
-            <h4>Kontakt</h4>
-            <p>exempel@university.se</p>
-            <p>+46 70 123 45 67</p>
-          </div>
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; {currentYear} Examensarbete. Alla rättigheter förbehållna.</p>
-          <p>
-            <a href="#" aria-label="Läs vår integritetspolicy">Integritetspolicy</a> | 
-            <a href="#" aria-label="Läs våra användarvillkor">Användarvillkor</a>
-          </p>
+          <p>&copy; {currentYear} Frej Listén Hedlin</p>
         </div>
       </div>
     </footer>

@@ -173,4 +173,48 @@ label {
 @keyframes slideIn {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+/* Markera sökresultat när användaren navigerar till dem */
+@keyframes highlight-pulse {
+  0% {
+    background-color: rgba(255, 236, 179, 0.2);
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+  }
+  50% {
+    background-color: rgba(255, 236, 179, 0.5);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+  }
+  100% {
+    background-color: rgba(255, 236, 179, 0.2);
+    box-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+  }
+}
+
+.highlight-search-result {
+  animation: highlight-pulse 2s ease-in-out;
+  position: relative;
+  z-index: 1;
+  border-radius: 4px;
+  outline: 1px solid rgba(255, 193, 7, 0.3);
+  transition: all 0.3s ease;
+}
+
+.word-highlight {
+  background-color: rgba(255, 194, 10, 0.4);
+  padding: 0 2px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 194, 10, 0.7);
+  font-weight: bold;
+  position: relative;
+  animation: word-flash 2s ease-in-out;
+}
+
+@keyframes word-flash {
+  0%, 100% {
+    background-color: rgba(255, 194, 10, 0.4);
+  }
+  50% {
+    background-color: rgba(255, 194, 10, 0.8);
+  }
 } 

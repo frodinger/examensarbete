@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import SearchComponent from './SearchComponent';
 import '../styles/navbar.css';
 
 const Navbar = () => {
@@ -144,7 +145,15 @@ const Navbar = () => {
             </li>
             <div ref={indicatorRef} className="nav-indicator"></div>
           </ul>
+          
+          <div className="mobile-search">
+            <SearchComponent isCompact={true} />
+          </div>
         </motion.div>
+        
+        <div className="desktop-search">
+          <SearchComponent isCompact={true} />
+        </div>
       </div>
     </nav>
   );
