@@ -1,0 +1,103 @@
+@use "../abstracts" as *;
+
+
+.footer {
+  background-color: $dark-background;
+  color: $light-text;
+  padding: $spacing-xxl 0 $spacing-lg;
+  
+  &-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+  }
+  
+  &-logo {
+    h3 {
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-md;
+      color: $light-text;
+    }
+    
+    p {
+      color: darken($light-text, 20%);
+      line-height: 1.6;
+    }
+  }
+  
+  &-links, &-contact {
+    h4 {
+      font-size: $font-size-large;
+      margin-bottom: $spacing-lg;
+      color: $light-text;
+    }
+  }
+  
+  &-links {
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    li {
+      margin-bottom: $spacing-sm;
+    }
+    
+    a {
+      color: darken($light-text, 20%);
+      text-decoration: none;
+      @include transition;
+      
+      &:hover, &:focus {
+        color: $primary-color;
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  &-contact {
+    p {
+      margin-bottom: $spacing-sm;
+      color: darken($light-text, 20%);
+    }
+  }
+  
+  &-bottom {
+    @include flex(row, center);
+    padding-top: $spacing-lg;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: $font-size-small;
+    
+    p {
+      color: darken($light-text, 20%);
+    }
+    
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      margin: 0 $spacing-sm;
+      @include transition;
+      
+      &:hover, &:focus {
+        color: darken($primary-color, 10%);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: $breakpoint-lg) {
+  .footer-content {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-md;
+  }
+} 

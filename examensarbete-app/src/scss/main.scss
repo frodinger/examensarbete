@@ -1,0 +1,18 @@
+// Använd abstracts (variabler och mixins)
+@use 'abstracts' as *;
+
+// Base styles
+@use 'base';
+@use 'global';
+
+// Layout
+@use 'layout/navbar';
+@use 'layout/footer';
+
+// Components
+@use 'components/hero';
+
+// Pages
+@use 'pages/about';
+@use 'pages/contact';
+@use 'pages/data'; 
