@@ -1,0 +1,124 @@
+@use "../abstracts" as *;
+
+
+.about-section {
+  padding: $spacing-xxl * 3 0;
+  background-color: lighten($background-color, 2%);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: $spacing-xl * 1.5;
+  
+  h2 {
+    font-size: $font-size-xxl;
+    color: $text-color;
+    margin-bottom: $spacing-md;
+    
+    @media (max-width: $breakpoint-md) {
+      font-size: $font-size-xl;
+    }
+  }
+}
+
+.underline {
+  height: 4px;
+  width: 70px;
+  background-color: $primary-color;
+  margin: 0 auto;
+}
+
+.about-content {
+  @include flex;
+  gap: $spacing-xxl * 2;
+  align-items: center;
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+}
+
+.about-text {
+  flex: 1;
+  
+  h3 {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-lg;
+    color: $text-color;
+    
+    @media (max-width: $breakpoint-md) {
+      font-size: $font-size-large;
+    }
+  }
+  
+  p {
+    margin-bottom: $spacing-lg;
+    line-height: 1.8;
+    color: lighten($text-color, 20%);
+  }
+}
+
+.about-image {
+  flex: 1;
+  border-radius: $border-radius * 2;
+  overflow: hidden;
+  box-shadow: $box-shadow;
+  
+  @media (max-width: $breakpoint-md) {
+    order: -1;
+    margin-bottom: $spacing-md;
+  }
+  
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    @include transition(transform);
+  }
+  
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+  margin-top: $spacing-xl;
+  
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+.feature {
+  background-color: $light-background;
+  padding: $spacing-lg;
+  border-radius: $border-radius * 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  @include transition(transform, box-shadow);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  &-icon {
+    font-size: $font-size-xxl;
+    margin-bottom: $spacing-md;
+  }
+  
+  h4 {
+    font-size: $font-size-large;
+    margin-bottom: $spacing-xs;
+    color: $text-color;
+  }
+  
+  p {
+    font-size: $font-size-small;
+    color: lighten($text-color, 20%);
+    margin-bottom: 0;
+  }
+} 

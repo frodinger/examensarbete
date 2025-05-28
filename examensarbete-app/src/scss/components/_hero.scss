@@ -1,0 +1,112 @@
+@use "../abstracts" as *;
+
+
+.hero-section {
+  height: 100vh;
+  min-height: 600px;
+  @include flex(row, center, center);
+  position: relative;
+  background: linear-gradient(135deg, rgba($primary-color, 0.1), rgba(#2ecc71, 0.1));
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://source.unsplash.com/1600x900/?data,research');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: -1;
+  }
+  
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: $spacing-lg;
+    color: $text-color;
+    
+    @media (max-width: $breakpoint-md) {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: $spacing-lg;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: $font-size-xl;
+  margin-bottom: $spacing-xxl;
+  color: $text-color;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-large;
+  }
+}
+
+.cta-container {
+  @include flex(row, center);
+  gap: $spacing-lg;
+  
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}
+
+.primary-btn {
+  background-color: $primary-color;
+  color: $light-text;
+  padding: $spacing-sm $spacing-xl;
+  border-radius: $border-radius;
+  font-weight: 600;
+  @include transition;
+  
+  &:hover, 
+  &:focus {
+    background-color: darken($primary-color, 10%);
+    transform: translateY(-3px);
+    text-decoration: none;
+    color: $light-text;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: $primary-color;
+  padding: $spacing-sm $spacing-xl;
+  border-radius: $border-radius;
+  font-weight: 600;
+  border: 2px solid $primary-color;
+  @include transition;
+  
+  &:hover, 
+  &:focus {
+    background-color: rgba($primary-color, 0.1);
+    transform: translateY(-3px);
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+    text-align: center;
+  }
+} 

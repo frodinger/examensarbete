@@ -1,14 +1,8 @@
+@use "abstracts" as *;
+
+
 /* Global Styles */
-:root {
-  --primary-color: #3498db;
-  --secondary-color: #2ecc71;
-  --accent-color: #e74c3c;
-  --text-color: #333333;
-  --background-color: #f8f9fa;
-  --light-gray: #e6e6e6;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --transition-speed: 0.3s;
-}
+// Variabler definerade i _variables.scss
 
 * {
   box-sizing: border-box;
@@ -18,47 +12,64 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: $font-size-base;
+  
+  @media (max-width: $breakpoint-md) {
+    font-size: $font-size-small;
+  }
 }
 
 body {
-  font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+  font-family: $font-family-base;
   line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-color);
+  color: $text-color;
+  background-color: $background-color;
   overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
-  color: var(--primary-color);
-  transition: color var(--transition-speed);
-}
-
-a:hover, a:focus {
-  color: darken(var(--primary-color), 10%);
-  text-decoration: underline;
+  color: $primary-color;
+  @include transition(color);
+  
+  &:hover,
+  &:focus {
+    color: darken($primary-color, 10%);
+    text-decoration: underline;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 1rem;
+  margin-bottom: $spacing-md;
   line-height: 1.3;
 }
 
 h1 {
   font-size: 2.5rem;
+  
+  @media (max-width: $breakpoint-md) {
+    font-size: 2rem;
+  }
 }
 
 h2 {
   font-size: 2rem;
+  
+  @media (max-width: $breakpoint-md) {
+    font-size: 1.75rem;
+  }
 }
 
 h3 {
   font-size: 1.75rem;
+  
+  @media (max-width: $breakpoint-md) {
+    font-size: 1.5rem;
+  }
 }
 
 p {
-  margin-bottom: 1rem;
+  margin-bottom: $spacing-md;
 }
 
 img {
@@ -71,16 +82,16 @@ img {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 $spacing-md;
 }
 
 section {
-  padding: 5rem 0;
+  padding: $spacing-xxl * 2.5 0;
 }
 
 /* Accessibility focus styles */
 :focus {
-  outline: 3px solid var(--primary-color);
+  outline: 3px solid $primary-color;
   outline-offset: 3px;
 }
 
@@ -89,70 +100,52 @@ section {
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--primary-color);
-  color: white;
-  padding: 8px;
+  background: $primary-color;
+  color: $light-text;
+  padding: $spacing-sm;
   z-index: 100;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* Responsive Typography */
-@media (max-width: 768px) {
-  html {
-    font-size: 14px;
-  }
   
-  h1 {
-    font-size: 2rem;
-  }
-  
-  h2 {
-    font-size: 1.75rem;
-  }
-  
-  h3 {
-    font-size: 1.5rem;
+  &:focus {
+    top: 0;
   }
 }
 
 /* Button Styles */
 .btn {
   display: inline-block;
-  padding: 0.5rem 1.5rem;
-  background-color: var(--primary-color);
-  color: white;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $primary-color;
+  color: $light-text;
   border: none;
-  border-radius: 4px;
+  border-radius: $border-radius;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color var(--transition-speed), transform var(--transition-speed);
-}
-
-.btn:hover, .btn:focus {
-  background-color: darken(var(--primary-color), 10%);
-  transform: translateY(-2px);
-}
-
-.btn:active {
-  transform: translateY(0);
+  font-size: $font-size-base;
+  @include transition(background-color, transform);
+  
+  &:hover,
+  &:focus {
+    background-color: darken($primary-color, 10%);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 /* Form Styles */
 input, textarea, select {
   width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--light-gray);
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: $spacing-sm * 1.5;
+  margin-bottom: $spacing-md;
+  border: 1px solid lighten($text-color, 60%);
+  border-radius: $border-radius;
+  font-size: $font-size-base;
 }
 
 label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: $spacing-sm;
   font-weight: bold;
 }
 
@@ -195,15 +188,15 @@ label {
   animation: highlight-pulse 2s ease-in-out;
   position: relative;
   z-index: 1;
-  border-radius: 4px;
+  border-radius: $border-radius;
   outline: 1px solid rgba(255, 193, 7, 0.3);
-  transition: all 0.3s ease;
+  @include transition;
 }
 
 .word-highlight {
   background-color: rgba(255, 194, 10, 0.4);
   padding: 0 2px;
-  border-radius: 2px;
+  border-radius: $border-radius / 2;
   box-shadow: 0 0 0 1px rgba(255, 194, 10, 0.7);
   font-weight: bold;
   position: relative;

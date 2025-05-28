@@ -1,0 +1,148 @@
+@use "../abstracts" as *;
+
+
+.contact-section {
+  padding: $spacing-xxl * 3 0;
+  background-color: lighten($background-color, 2%);
+}
+
+.contact-container {
+  display: flex;
+  gap: $spacing-xl;
+  margin-top: $spacing-xl;
+  
+  @media (max-width: $breakpoint-lg) {
+    flex-direction: column;
+  }
+}
+
+.contact-info {
+  flex: 1;
+  
+  h3 {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
+    color: $text-color;
+  }
+  
+  p {
+    color: lighten($text-color, 20%);
+    line-height: 1.7;
+    margin-bottom: $spacing-lg;
+  }
+  
+  @media (max-width: $breakpoint-lg) {
+    width: 100%;
+  }
+}
+
+.contact-details {
+  margin-top: $spacing-lg;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: $spacing-lg;
+}
+
+.contact-icon {
+  font-size: $font-size-xl;
+  margin-right: $spacing-md;
+  margin-top: 0.15rem;
+}
+
+.contact-form-container {
+  flex: 1.2;
+  background-color: $light-background;
+  padding: $spacing-lg;
+  border-radius: $border-radius * 2;
+  box-shadow: $box-shadow;
+  
+  @media (max-width: $breakpoint-lg) {
+    width: 100%;
+  }
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: $spacing-lg;
+  
+  label {
+    display: block;
+    margin-bottom: $spacing-sm;
+    font-weight: 600;
+    color: $text-color;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: $spacing-sm * 1.5;
+    border: 1px solid lighten($text-color, 60%);
+    border-radius: $border-radius;
+    font-size: $font-size-base;
+    @include transition(border-color);
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
+  }
+}
+
+.error-message {
+  color: $secondary-color;
+  font-size: $font-size-small;
+  margin-top: $spacing-sm;
+}
+
+.submit-btn {
+  background-color: $primary-color;
+  color: $light-text;
+  border: none;
+  border-radius: $border-radius;
+  padding: $spacing-sm * 1.75 $spacing-lg;
+  font-size: $font-size-base;
+  font-weight: 600;
+  cursor: pointer;
+  @include transition;
+  margin-top: $spacing-md;
+  align-self: flex-start;
+  
+  &:hover, 
+  &:focus {
+    background-color: darken($primary-color, 10%);
+    transform: translateY(-2px);
+  }
+  
+  &:disabled {
+    background-color: lighten($text-color, 50%);
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.form-success-message {
+  text-align: center;
+  padding: $spacing-lg;
+  
+  h3 {
+    color: darken($primary-color, 10%);
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
+  }
+  
+  p {
+    color: lighten($text-color, 20%);
+  }
+} 

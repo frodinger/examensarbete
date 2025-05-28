@@ -5,7 +5,7 @@ import AboutSection from './sections/AboutSection';
 import DataSection from './sections/DataSection';
 import ContactSection from './sections/ContactSection';
 import Footer from './components/Footer';
-import './styles/global.css';
+import './scss/main.scss';
 
 function App() {
   return (
