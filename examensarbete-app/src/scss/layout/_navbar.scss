@@ -139,6 +139,7 @@
   height: 30px;
   position: relative;
   z-index: 1001;
+  padding: 0;
 }
 
 .hamburger {
@@ -157,6 +158,7 @@
     height: 2px;
     background-color: $text-color;
     @include transition;
+    left: 0;
   }
   
   &:before {
@@ -183,74 +185,74 @@
 }
 
 /* Responsive styles */
-@include respond-to(md) {
-  @media (max-width: $breakpoint-md) {
-    .mobile-menu-btn {
-      display: block;
+@media (max-width: $breakpoint-md - 1px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100vh;
+    background-color: $light-background;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    padding: 80px $spacing-lg $spacing-lg;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    
+    &.active {
+      right: 0;
     }
+    
+    ul {
+      flex-direction: column;
+    }
+    
+    li {
+      margin: $spacing-md 0;
+    }
+    
+    button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: $primary-color;
+    }
+  }
   
-    .nav-links {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 250px;
-      height: 100vh;
-      background-color: $light-background;
-      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-      padding: 80px $spacing-lg $spacing-lg;
-      transition: right 0.3s ease;
-      overflow-y: auto;
-      
-      &.active {
-        right: 0;
-      }
-      
-      ul {
-        flex-direction: column;
-      }
-      
-      li {
-        margin: $spacing-md 0;
-      }
-      
-      button.active::after {
-        content: '';
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: $primary-color;
-      }
+  /* Annan stil för mobil navigering */
+  .nav-indicator {
+    display: none;
+  }
+  
+  /* Sök i mobilmenyn */
+  .desktop-search {
+    display: none;
+  }
+  
+  .mobile-search {
+    display: block;
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: relative;
+    
+    .navbar-search-field {
+      width: 100%;
     }
     
-    /* Annan stil för mobil navigering */
-    .nav-indicator {
-      display: none;
-    }
-    
-    /* Sök i mobilmenyn */
-    .desktop-search {
-      display: none;
-    }
-    
-    .mobile-search {
-      display: block;
-      margin-top: $spacing-lg;
-      padding-top: $spacing-lg;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    .search-results-dropdown {
       width: 100%;
       position: relative;
-      
-      .navbar-search-field {
-        width: 100%;
-      }
-      
-      .search-results-dropdown {
-        width: 100%;
-        position: relative;
-        margin-top: $spacing-sm;
-      }
+      margin-top: $spacing-sm;
     }
   }
 } 

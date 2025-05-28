@@ -4,7 +4,6 @@ import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
-import '../styles/data.css';
 
 // Exempeldata - ersätt med din egen forskningsdata
 const monthlyData = [

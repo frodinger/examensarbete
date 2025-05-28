@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import '../styles/hero.css';
 
 const HeroSection = () => {
   return (
