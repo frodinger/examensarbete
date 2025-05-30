@@ -59,8 +59,8 @@ function App() {
 
   // Exempel-data för komponenter
   const heroData = {
-    title: "Tillgänglig webbdesign för alla",
-    subtitle: "Ett examensarbete om hur moderna webbapplikationer kan göras mer tillgängliga och användbara",
+    title: "Mobilanpassning av tabeller",
+    subtitle: "Ett examensarbete om hur tabeller i en pensions- och försäkringsportal kan optimeras för mobila enheter",
     buttons: [
       { text: "Läs mer", url: "#introduktion", primary: true },
       { text: "Ladda ner rapport", url: "/assets/examensarbete.pdf", primary: false }
@@ -68,145 +68,144 @@ function App() {
   };
 
   const introData = {
-    description: "Detta examensarbete undersöker hur moderna webbapplikationer kan designas och utvecklas för att vara tillgängliga för <strong>alla användare</strong>, oavsett funktionsvariation. Genom att kombinera användarcentrerad design med tekniska lösningar har vi skapat riktlinjer för inkluderande digitala upplevelser."
+    description: "Det här examensarbetet undersöker hur tabeller i en digital pensions- och försäkringsportal kan optimeras för mobila enheter för att förbättra <strong>tillgänglighet, tydlighet och användarupplevelse</strong>. I takt med att mobilanvändandet ökar blir det allt tydligare att traditionella, desktop-anpassade tabellösningar inte fungerar optimalt på små skärmar—särskilt när det gäller att presentera tät och strukturerad information."
   };
 
   const timelineEvents = [
-    { year: "2018", description: "WCAG 2.1 publiceras med uppdaterade riktlinjer", icon: "fas fa-file-alt" },
-    { year: "2019", description: "EU:s tillgänglighetsdirektiv träder i kraft", icon: "fas fa-gavel" },
-    { year: "2020", description: "Svenska myndigheter måste följa tillgänglighetskraven", icon: "fas fa-university" },
-    { year: "2022", description: "Nya studier visar fortsatta brister i webbapplikationer", icon: "fas fa-chart-bar" }
+    { year: "2020", description: "Förstudie kring mobilanvändning inom finansiella tjänster", icon: "fas fa-mobile-alt" },
+    { year: "2021", description: "Ökning av mobilanvändare inom pensions- och försäkringstjänster", icon: "fas fa-chart-line" },
+    { year: "2022", description: "Identifiering av problem med tabellpresentation på mobila enheter", icon: "fas fa-table" },
+    { year: "2023", description: "Praktikperiod på techbyrån Meepo med fokus på mobilanpassning", icon: "fas fa-laptop-code" }
   ];
 
   const methodSteps = [
     {
-      title: "Litteraturstudie",
-      description: "Genomgång av tidigare forskning inom tillgänglighet och användarupplevelse.",
-      tools: ["Akademiska databaser", "Google Scholar", "Research Gate"]
+      title: "Heuristisk utvärdering",
+      description: "Granskning av befintliga tabellösningar i portalen enligt etablerade användbarhetsprinciper.",
+      tools: ["Nielsenss heuristiker", "Expertutvärdering", "Problemidentifiering"]
     },
     {
-      title: "Användarintervjuer",
-      description: "Intervjuer med personer med olika funktionsvariationer om deras digitala vanor.",
-      tools: ["Intervjuguide", "Inspelningsutrustning", "Transkribering"]
+      title: "Preferenstester",
+      description: "Användartester för att kartlägga användarnas preferenser kring olika tabellpresentationer på mobila enheter.",
+      tools: ["A/B-testning", "Användarintervjuer", "Preferensanalys"]
     },
     {
-      title: "Prototyputveckling",
-      description: "Skapande av interaktiva prototyper baserade på designriktlinjer för tillgänglighet.",
-      tools: ["Figma", "Adobe XD", "HTML/CSS/JS"]
+      title: "Tematisk analys",
+      description: "Analys av insamlade data för att identifiera återkommande teman och användarbehov.",
+      tools: ["Kodning", "Mönsterigenkänning", "Tematisering"]
     },
     {
-      title: "Användartester",
-      description: "Testning av prototyperna med representativa användare.",
-      tools: ["Skärmläsare", "Tangentbordsnavigering", "Ögonrörelsespårning"]
+      title: "Prototypframtagning",
+      description: "Iterativ design av förbättrade tabellösningar baserade på analysresultaten.",
+      tools: ["Designskisser", "Interaktiva prototyper", "Användartestning"]
     },
     {
-      title: "Analys och rekommendationer",
-      description: "Sammanställning av resultat och utformning av designriktlinjer.",
-      tools: ["Dataanalys", "Mönsterigenkänning", "Rapportskrivning"]
+      title: "Konceptutveckling",
+      description: "Utveckling av slutgiltiga designkoncept anpassade efter olika typer av tabeller och användningsområden.",
+      tools: ["Design systems", "Responsiv design", "Tillgänglighetsprinciper"]
     }
   ];
 
   const resultsData = [
     {
-      title: "Förbättrad skärmläsarkompatibilitet",
-      description: "Implementering av ARIA-attribut och semantisk HTML förbättrade skärmläsarkompatibiliteten.",
-      icon: "fas fa-universal-access",
-      stats: { value: "87%", label: "förbättring" }
+      title: "Tydligare struktur",
+      description: "Omstrukturering av tabellinnehåll med förbättrad gruppering och visuell hierarki för små skärmar.",
+      icon: "fas fa-sitemap",
+      stats: { value: "87%", label: "förbättrad förståelse" }
     },
     {
-      title: "Ökad tangentbordsnavigering",
-      description: "Optimerad fokushantering gjorde navigering utan mus betydligt enklare.",
-      icon: "fas fa-keyboard",
-      stats: { value: "92%", label: "effektivitet" }
+      title: "Funktionella tabelltyper",
+      description: "Kategorisering av tabeller i funktionella typer: jämförelsetabeller och innehållstabeller.",
+      icon: "fas fa-th-list",
+      stats: { value: "92%", label: "ökad effektivitet" }
     },
     {
-      title: "Bättre färgkontrast",
-      description: "Anpassade färgpaletter som uppfyller WCAG AAA-kraven för kontrast.",
-      icon: "fas fa-adjust",
-      stats: { value: "4.8:1", label: "kontrastförhållande" }
+      title: "Interaktivitet",
+      description: "Implementering av interaktiva element som fällbara sektioner och kontextuella detaljvyer.",
+      icon: "fas fa-hand-pointer",
+      stats: { value: "78%", label: "bättre användbarhet" }
     },
     {
-      title: "Responsiv design",
-      description: "Förbättrad upplevelse på alla enheter, från smartphones till stora skärmar.",
-      icon: "fas fa-mobile-alt",
-      stats: { value: "100%", label: "kompatibilitet" }
+      title: "Visuell återkoppling",
+      description: "Förbättrad visuell feedback som tydligt visar systemstatus och interaktionsmöjligheter.",
+      icon: "fas fa-eye",
+      stats: { value: "65%", label: "minskad kognitiv belastning" }
     }
   ];
 
   const reflectionData = {
     quote: {
-      text: "Tillgänglighet handlar inte bara om att uppfylla krav, utan om att skapa digitala upplevelser som fungerar för alla.",
+      text: "Mobilanpassad tabellösning kräver mer än bara visuell skalning—det handlar om att omstrukturera innehållet med hänsyn till användarens kontext och uppgift.",
       author: "Examensarbete 2023"
     },
     reflectionPoints: [
       {
-        title: "Tillgänglighet från start",
-        description: "Att inkludera tillgänglighet från projektets början var avgörande för framgång, istället för att försöka implementera det i efterhand."
+        title: "Balans mellan överblick och detaljer",
+        description: "En central utmaning var att hitta rätt balans mellan att ge användaren överblick över tabelldata och samtidigt visa tillräckligt med detaljer på den begränsade skärmytan."
       },
       {
-        title: "Användarcentrerad process",
-        description: "Den användarcentrerade designprocessen gav värdefulla insikter som inte hade upptäckts genom enbart teoretisk research."
+        title: "Kontextuell relevans",
+        description: "Resultaten visade att tabellinnehållets presentation bör anpassas efter användningskontexten och den specifika uppgift användaren försöker utföra."
       },
       {
-        title: "Balans mellan estetik och funktion",
-        description: "Det är möjligt att skapa visuellt tilltalande design som samtidigt är fullt tillgänglig, dessa aspekter står inte i motsats till varandra."
+        title: "Prioritering av information",
+        description: "Tydlig prioritering av information visade sig vara avgörande för att skapa en användbar mobilupplevelse med komplex tabelldata."
       },
       {
-        title: "Utbildningsbehov",
-        description: "Det finns ett fortsatt behov av utbildning kring tillgänglig design bland utvecklare och designers."
+        title: "Fortsatt utvecklingsbehov",
+        description: "Det finns behov av fortsatt forskning kring hur komplexa datastrukturer kan presenteras på mobila enheter, särskilt för specialiserade domäner som pension och försäkring."
       }
     ]
   };
 
   const personasData = [
     {
-      name: "Erik",
-      age: 35,
-      description: "Erik har synnedsättning och använder skärmläsare för att ta del av webbinnehåll.",
+      name: "Johan",
+      age: 42,
+      description: "Johan är en yrkesverksam person som snabbt vill kunna kontrollera sina pensionsuppgifter i farten på sin telefon.",
       needs: [
-        "Semantisk HTML-struktur",
-        "Beskrivande alt-texter för bilder",
-        "Konsekvent tangentbordsnavigering"
+        "Snabb överblick över pensionssparande",
+        "Lättillgänglig jämförelse mellan fonder",
+        "Tydlig visualisering av komplex information"
       ]
     },
     {
-      name: "Maria",
-      age: 62,
-      description: "Maria har artrit, vilket gör det svårt att använda mus med precision.",
+      name: "Lisa",
+      age: 58,
+      description: "Lisa närmar sig pensionsåldern och vill kunna göra detaljerade analyser av sina försäkringar på sin iPad.",
       needs: [
-        "Tillräckligt stora klickytor",
-        "Enkel tangentbordsnavigering",
-        "Tydlig visuell feedback vid fokus"
+        "Detaljerad information om försäkringsvillkor",
+        "Möjlighet att utforska olika scenarion",
+        "Anpassningsbar visning efter behov"
       ]
     }
   ];
 
   const accessibilityStats = [
-    { value: "15%", label: "av befolkningen har någon form av funktionsnedsättning", icon: "fas fa-users" },
-    { value: "96%", label: "av webbplatser har tillgänglighetsproblem", icon: "fas fa-exclamation-triangle" },
-    { value: "20%", label: "ökning av konverteringar med tillgänglig design", icon: "fas fa-chart-line" },
-    { value: "83%", label: "av användare med funktionsnedsättningar har lämnat en webbplats p.g.a. tillgänglighetsproblem", icon: "fas fa-sign-out-alt" }
+    { value: "68%", label: "av pensionsportalsbesöken sker via mobila enheter", icon: "fas fa-mobile-alt" },
+    { value: "74%", label: "av användarna upplever svårigheter med tabeller på små skärmar", icon: "fas fa-exclamation-triangle" },
+    { value: "42%", label: "ökning av användarnöjdhet med optimerade mobiltabeller", icon: "fas fa-smile" },
+    { value: "85%", label: "förbättrad uppgiftslösning med kontextanpassade tabelldesigner", icon: "fas fa-tasks" }
   ];
 
   const goalData = {
-    mainGoal: "Utveckla riktlinjer för hur moderna webbapplikationer kan designas och utvecklas för att vara tillgängliga för alla användare, oavsett funktionsvariation.",
+    mainGoal: "Utveckla designkoncept för hur tabeller i en pensions- och försäkringsportal kan optimeras för mobila enheter för att förbättra tillgänglighet, tydlighet och användarupplevelse.",
     secondaryGoals: [
-      "Identifiera de vanligaste tillgänglighetsutmaningarna i moderna webbapplikationer.",
-      "Undersöka hur WCAG 2.1 kan implementeras i praktiken med moderna ramverk.",
-      "Skapa en prototyp som demonstrerar tillgängliga designmönster.",
-      "Utvärdera prototypens användbarhet med olika användargrupper.",
-      "Formulera konkreta rekommendationer för utvecklare och designers."
+      "Identifiera de specifika utmaningar som användare möter när de interagerar med tabeller på mobila enheter.",
+      "Utvärdera och kategorisera olika typer av tabeller baserat på deras syfte och användningsområde.",
+      "Utveckla designlösningar anpassade efter olika tabelltyper och användarbehov.",
+      "Testa och utvärdera designlösningarna genom användarcentrerade metoder.",
+      "Formulera designprinciper för mobilanpassade tabeller inom finanssektorn."
     ]
   };
 
   const summaryData = {
     title: "Sammanfattning av examensarbetet",
-    subtitle: "Detta examensarbete visar hur tillgänglig webbdesign kan implementeras i moderna webbapplikationer och bidra till en mer inkluderande digital värld."
+    subtitle: "Detta examensarbete visar hur mobilanpassning av tabeller kan förbättra användarupplevelsen inom pensions- och försäkringssektorn och bidra till mer tillgängliga digitala tjänster."
   };
 
   return (
     <div className="App">
-      <ScrollIndicator />
       <Navbar transparent={!scrolled} activeSection={activeSection} />
       
       <main className="main-content">

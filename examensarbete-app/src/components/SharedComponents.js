@@ -9,63 +9,10 @@ export const Footer = () => {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="footer-widgets">
-          <div className="widget">
-            <h3 className="widget-title">Om examensarbetet</h3>
-            <div className="widget-content">
-              <p>
-                Detta examensarbete fokuserar på användbarhet och tillgänglighet 
-                i moderna webbapplikationer, med särskilt fokus på 
-                användarupplevelse för alla användare.
-              </p>
-            </div>
-          </div>
-          
-          <div className="widget">
-            <h3 className="widget-title">Snabblänkar</h3>
-            <div className="widget-content">
-              <ul>
-                <li><a href="#introduktion">Introduktion</a></li>
-                <li><a href="#bakgrund">Bakgrund</a></li>
-                <li><a href="#metod">Metod</a></li>
-                <li><a href="#resultat">Resultat</a></li>
-                <li><a href="#reflektion">Reflektion</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="widget">
-            <h3 className="widget-title">Referenser</h3>
-            <div className="widget-content">
-              <p>
-                Detta examensarbete bygger på forskning och standarder inom 
-                tillgänglighet på webben, inklusive WCAG 2.1 och 
-                best practices inom användarcentrerad design.
-              </p>
-            </div>
-          </div>
-          
-          <div className="widget">
-            <h3 className="widget-title">Resurser</h3>
-            <div className="widget-content">
-              <ul>
-                <li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener noreferrer">WCAG 2.1</a></li>
-                <li><a href="https://www.w3.org/WAI/ARIA/apg/" target="_blank" rel="noopener noreferrer">ARIA Practices Guide</a></li>
-                <li><a href="https://webaim.org/" target="_blank" rel="noopener noreferrer">WebAIM</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
+        <div className="footer-content">
           <div className="copyright">
-            &copy; {currentYear} Examensarbete. Alla rättigheter förbehållna.
+            &copy; {currentYear} Frej
           </div>
-          <nav className="footer-nav">
-            <ul>
-              <li><a href="/accessibility">Tillgänglighet</a></li>
-            </ul>
-          </nav>
         </div>
       </div>
     </footer>
@@ -166,6 +113,8 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
           </ul>
         </div>
       </div>
+      
+      <ScrollIndicator />
     </nav>
   );
 };

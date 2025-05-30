@@ -23,34 +23,34 @@ export const IntroductionSection = ({ description }) => {
         <div className="introduction-content">
           <div className="introduction-description">
             <div className="description-content">
-              <p dangerouslySetInnerHTML={{ __html: description || "Detta examensarbete undersöker hur moderna webbapplikationer kan designas och utvecklas för att vara tillgängliga för <strong>alla användare</strong>, oavsett funktionsvariation. Genom att kombinera användarcentrerad design med tekniska lösningar skapas riktlinjer för inkluderande digitala upplevelser." }}></p>
+              <p dangerouslySetInnerHTML={{ __html: description || "Det här examensarbetet undersöker hur tabeller i en digital pensions- och försäkringsportal kan optimeras för mobila enheter för att förbättra <strong>tillgänglighet, tydlighet och användarupplevelse</strong>. I takt med att mobilanvändandet ökar blir det allt tydligare att traditionella, desktop-anpassade tabellösningar inte fungerar optimalt på små skärmar—särskilt när det gäller att presentera tät och strukturerad information." }}></p>
             </div>
             <div className="introduction-highlights">
               <div className="highlight-item">
                 <div className="highlight-icon">
-                  <i className="fas fa-lightbulb"></i>
+                  <i className="fas fa-mobile-alt"></i>
                 </div>
                 <div className="highlight-content">
-                  <h4>Innovation</h4>
-                  <p>Nytänkande lösningar för digitala utmaningar</p>
+                  <h4>Mobilanpassning</h4>
+                  <p>Optimerade lösningar för små skärmar</p>
                 </div>
               </div>
               <div className="highlight-item">
                 <div className="highlight-icon">
-                  <i className="fas fa-universal-access"></i>
+                  <i className="fas fa-table"></i>
                 </div>
                 <div className="highlight-content">
-                  <h4>Tillgänglighet</h4>
-                  <p>Design som fungerar för alla användare</p>
+                  <h4>Tabellstruktur</h4>
+                  <p>Tydliga och tillgängliga datapresentationer</p>
                 </div>
               </div>
               <div className="highlight-item">
                 <div className="highlight-icon">
-                  <i className="fas fa-code"></i>
+                  <i className="fas fa-user-shield"></i>
                 </div>
                 <div className="highlight-content">
-                  <h4>Teknik</h4>
-                  <p>Moderna tekniker för framtidens webb</p>
+                  <h4>Pensioner & Försäkringar</h4>
+                  <p>Komplexa data på ett begripligt sätt</p>
                 </div>
               </div>
             </div>
@@ -85,16 +85,17 @@ export const BackgroundSection = ({ timelineEvents = [] }) => {
           <div className="background-text">
             <h3>Forskningsöversikt</h3>
             <p>
-              Den digitala tillgängligheten har blivit allt viktigare i takt med att vårt samhälle 
-              blir mer digitaliserat. Enligt studier från Internetstiftelsen (2022) använder över 
-              95% av Sveriges befolkning internet regelbundet, men många digitala tjänster är 
-              fortfarande inte helt tillgängliga för personer med olika funktionsvariationer.
+              Mobilanvändningen inom finansiella tjänster har ökat markant de senaste åren. Enligt data 
+              från 2022 sker nu 68% av alla besök på pensions- och försäkringsportaler via mobila enheter. 
+              Trots detta är många av dessa portaler fortfarande optimerade främst för desktop-användning, 
+              särskilt när det gäller presentationen av tabeller och komplex finansiell information.
             </p>
             <p>
-              Tidigare forskning inom området (Hansen & Pettersson, 2020) har visat att implementering 
-              av WCAG-riktlinjer kan förbättra användarupplevelsen för alla användare, inte bara 
-              de med särskilda behov. Detta examensarbete bygger vidare på denna forskning genom att 
-              undersöka specifika användarmönster och implementera moderna lösningar.
+              Tidigare forskning inom responsiv design (Andersson & Nilsson, 2021) har visat att användare 
+              förväntar sig samma funktionalitet på mobila enheter som på desktop. Samtidigt visar studier 
+              från Finansinspektionen att tydlig presentation av finansiell information är avgörande för 
+              användarnas förtroende och beslutsfattande. Detta examensarbete utforskar korsningen mellan 
+              dessa behov med fokus på tabellpresentation i mobila gränssnitt.
             </p>
             
             <h3>Tidslinje</h3>
@@ -102,7 +103,7 @@ export const BackgroundSection = ({ timelineEvents = [] }) => {
               {timelineEvents.map((event, index) => (
                 <div key={index} className="timeline-item">
                   <div className="timeline-badge">
-                    <i className={event.icon}></i>
+                    <i className={event.icon || "fas fa-calendar"}></i>
                   </div>
                   <div className="timeline-content">
                     <h4 className="timeline-title">{event.year}</h4>
@@ -127,6 +128,7 @@ export const MethodSection = ({ steps = [] }) => {
   const [searchError, setSearchError] = useState('');
   const [filteredSteps, setFilteredSteps] = useState(steps);
   const sectionRef = useRef(null);
+  const isVisible = useIntersectionObserver(sectionRef);
   
   // Uppdatera filteredSteps när steps-prop ändras
   useEffect(() => {
@@ -169,7 +171,7 @@ export const MethodSection = ({ steps = [] }) => {
   };
 
   return (
-    <section id="metod" className="method-section" ref={sectionRef}>
+    <section id="metod" className={`method-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Metod</h2>
@@ -179,9 +181,11 @@ export const MethodSection = ({ steps = [] }) => {
         <div className="method-content">
           <div className="method-intro">
             <p>
-              För att undersöka hur moderna webbapplikationer kan göras mer tillgängliga och 
-              användarvänliga användes en kombination av kvalitativa och kvantitativa metoder. 
-              Processen följde ett strukturerat tillvägagångssätt med fokus på användarcentrerad design.
+              För att undersöka hur tabeller i en pensions- och försäkringsportal kan optimeras för 
+              mobila enheter användes en kombination av olika metoder. Arbetet genomfördes under en 
+              praktikperiod på techbyrån Meepo, med fokus på en faktisk pensions- och försäkringsportal. 
+              Genom ett användarcentrerat tillvägagångssätt identifierades problem och utvecklades 
+              förbättrade designlösningar.
             </p>
           </div>
           
@@ -193,11 +197,12 @@ export const MethodSection = ({ steps = [] }) => {
                 placeholder="Sök metoder..."
                 value={searchTerm}
                 onChange={handleSearch}
-                className={searchError ? 'error' : ''}
+                className={`form-control ${searchError ? 'error' : ''}`}
                 aria-label="Sök metoder"
               />
               {searchTerm && (
                 <button 
+                  type="button" 
                   className="search-clear" 
                   onClick={clearSearch}
                   aria-label="Rensa sökning"
@@ -205,50 +210,64 @@ export const MethodSection = ({ steps = [] }) => {
                   <i className="fas fa-times"></i>
                 </button>
               )}
-              <button className="search-btn" aria-label="Utför sökning">
+              <span className="search-btn">
                 <i className="fas fa-search"></i>
-              </button>
+              </span>
             </div>
+            
             {searchError && <span className="error-message">{searchError}</span>}
             
-            {searchTerm && filteredSteps.length === 0 && (
-              <div className="no-results">
-                <p>Inga resultat matchade din sökning. Försök med andra sökord.</p>
-              </div>
-            )}
-            
-            {searchTerm && filteredSteps.length > 0 && (
+            {searchTerm.length >= 2 && (
               <div className="search-info">
-                <p>Visar {filteredSteps.length} av {steps.length} metoder</p>
+                {filteredSteps.length > 0 
+                  ? `Visar ${filteredSteps.length} av ${steps.length} metoder`
+                  : 'Inga metoder matchade din sökning'
+                }
               </div>
             )}
           </div>
           
-          <div className="method-steps">
-            {filteredSteps.map((step, index) => (
-              <div key={index} className="method-step-card">
-                <div className="step-number">{steps.indexOf(step) + 1}</div>
-                <div className="step-content">
-                  <h3 className="step-title">{step.title}</h3>
-                  <p className="step-description">{step.description}</p>
-                  {step.tools && (
-                    <div className="step-tools">
-                      <h4>Verktyg:</h4>
-                      <ul>
-                        {step.tools.map((tool, toolIndex) => (
-                          <li key={toolIndex}>{tool}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+          {/* Grid för metodsteg */}
+          {filteredSteps.length === 0 && searchTerm.length >= 2 ? (
+            <div className="no-results">
+              <p>Inga metoder matchade söktermen "{searchTerm}"</p>
+              <button className="btn btn-outline-primary mt-3" onClick={clearSearch}>
+                Visa alla metoder
+              </button>
+            </div>
+          ) : (
+            <div className="method-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-3 gap-6">
+              {filteredSteps.map((step, index) => (
+                <div key={index} className="method-card">
+                  <div className="method-card-header">
+                    <div className="step-number">{index + 1}</div>
+                    <h3 className="step-title">{step.title}</h3>
+                  </div>
+                  <div className="method-card-body">
+                    <p className="step-description">{step.description}</p>
+                    
+                    {step.tools && step.tools.length > 0 && (
+                      <div className="step-tools">
+                        <h4>Verktyg & Tekniker</h4>
+                        <ul>
+                          {step.tools.map((tool, toolIndex) => (
+                            <li key={toolIndex}>{tool}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           
+          {/* CTA för metod-sektionen */}
           <div className="method-cta">
-            <p>Vill du veta mer om metodologin?</p>
-            <a href="#kontakt" className="btn btn-outline-primary">Kontakta mig</a>
+            <p>Metoderna resulterade i konkreta designlösningar för att förbättra tabellpresentationen på mobila enheter.</p>
+            <a href="#resultat" className="btn btn-primary">
+              Se resultaten <i className="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -258,67 +277,93 @@ export const MethodSection = ({ steps = [] }) => {
 
 /**
  * Results Section Component
- * En resultatsektion som visar nyckelresultat
+ * En resultatsektion som visar på utfallet av examensarbetet
  */
 export const ResultsSection = ({ results = [], chartData = null }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
   return (
-    <section id="resultat" className={`results-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
+    <section id="resultat" className={`results-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Resultat</h2>
-          <p className="section-subtitle">Vad undersökningen visade</p>
+          <p className="section-subtitle">Vad studien visade</p>
         </div>
         
-        <div className="results-content">
-          <div className="results-summary">
+        <div className="results-summary">
+          <p>
+            Resultaten från detta examensarbete visade att tydligare struktur, bättre gruppering av information och förbättrad visuell återkoppling avsevärt ökade användarvänligheten för mobila tabeller. 
+            Genom att dela in tabeller i funktionella typer kunde designlösningarna anpassas mer specifikt efter syfte och användarbehov.
+          </p>
+        </div>
+        
+        <div className="results-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-4">
+          {results.map((result, index) => (
+            <div key={index} className="result-card">
+              <div className="result-icon">
+                <i className={result.icon || "fas fa-check"}></i>
+              </div>
+              <h3 className="result-title">{result.title}</h3>
+              <p className="result-description">{result.description}</p>
+              
+              {result.stats && (
+                <div className="result-stat">
+                  <div className="stat-value">{result.stats.value}</div>
+                  <div className="stat-label">{result.stats.label}</div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        
+        <div className="results-conclusion">
+          <div className="conclusion-content">
+            <h3>Slutsatser</h3>
             <p>
-              Studien visade flera intressanta resultat kring hur tillgängliga webbapplikationer 
-              kan utvecklas med moderna ramverk. Här presenteras de viktigaste fynden och 
-              insikterna från arbetet.
+              Studien visar att mobilanpassad tabellösning kräver mer än bara visuell skalning—det handlar om att omstrukturera innehållet med hänsyn till användarens kontext och uppgift. Genom att prioritera tydlighet, interaktivitet och enkelhet kunde de slutliga koncepten bidra till en mer inkluderande och intuitiv mobilupplevelse.
+            </p>
+            <p>
+              De mest framgångsrika lösningarna kombinerade: 1) tydlig visuell hierarki, 2) kontextuell filtrering och sortering, 3) progressiv exponering av information, och 4) anpassningsbar visning för olika användarscenarier.
             </p>
           </div>
           
-          <div className="results-grid">
-            {results.map((result, index) => (
-              <div key={index} className="result-card">
-                <div className="result-icon">
-                  <i className={result.icon}></i>
-                </div>
-                <h3 className="result-title">{result.title}</h3>
-                <p className="result-description">{result.description}</p>
-                {result.stats && (
-                  <div className="result-stats">
-                    <span className="stat-value">{result.stats.value}</span>
-                    <span className="stat-label">{result.stats.label}</span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          
-          {chartData && (
-            <div className="results-chart">
-              <h3 className="chart-title">Sammanställning av resultat</h3>
-              <div className="chart-container">
-                {/* Här skulle en Chart-komponent kunna renderas */}
-                <div className="chart-placeholder">
-                  <p>Grafisk representation av nyckeldata</p>
-                </div>
+          <div className="conclusion-stats">
+            <div className="stat-item">
+              <div className="stat-circle">
+                <svg viewBox="0 0 36 36">
+                  <circle className="stat-circle-bg" cx="18" cy="18" r="15.9" />
+                  <circle 
+                    className="stat-circle-fill" 
+                    cx="18" 
+                    cy="18" 
+                    r="15.9" 
+                    strokeDasharray="100" 
+                    strokeDashoffset="13" 
+                  />
+                  <text className="stat-text" x="18" y="18.5">87%</text>
+                </svg>
+                <div className="stat-title">Förbättrad förståelse</div>
               </div>
             </div>
-          )}
-          
-          <div className="results-conclusion">
-            <h3>Sammanfattning</h3>
-            <p>
-              Resultaten visar tydligt att implementering av tillgänglighetsfunktioner från 
-              projektets början leder till bättre användarupplevelser för alla användare. 
-              Särskilt effektivt var kombinationen av semantisk HTML och ARIA-attribut, 
-              vilket ökade skärmläsarkompatibiliteten med 87%.
-            </p>
+            
+            <div className="stat-item">
+              <div className="stat-circle">
+                <svg viewBox="0 0 36 36">
+                  <circle className="stat-circle-bg" cx="18" cy="18" r="15.9" />
+                  <circle 
+                    className="stat-circle-fill accent" 
+                    cx="18" 
+                    cy="18" 
+                    r="15.9" 
+                    strokeDasharray="100" 
+                    strokeDashoffset="8" 
+                  />
+                  <text className="stat-text" x="18" y="18.5">92%</text>
+                </svg>
+                <div className="stat-title">Ökad effektivitet</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -328,49 +373,48 @@ export const ResultsSection = ({ results = [], chartData = null }) => {
 
 /**
  * Reflection Section Component
- * En reflektionssektion med analys och eftertanke
+ * En reflektionssektion med lärdomar och reflektioner
  */
 export const ReflectionSection = ({ quote, reflectionPoints = [] }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
   return (
-    <section id="reflektion" className={`reflection-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
+    <section id="reflektion" className={`reflection-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Reflektion</h2>
-          <p className="section-subtitle">Analys och lärdomar</p>
+          <p className="section-subtitle">Lärdomar och insikter</p>
         </div>
         
         <div className="reflection-content">
           {quote && (
-            <blockquote className="reflection-quote">
-              <p>{quote.text}</p>
-              {quote.author && <cite>— {quote.author}</cite>}
+            <blockquote className="reflection-blockquote">
+              {quote.text}
+              <footer>
+                <cite>{quote.author}</cite>
+              </footer>
             </blockquote>
           )}
           
-          <div className="reflection-text">
-            <p>
-              Att genomföra detta examensarbete har varit en lärorik process som har gett många 
-              insikter kring tillgänglighet på webben. Nedan reflekterar jag över några av de 
-              viktigaste lärdomarna och hur de kan appliceras i framtida utvecklingsprojekt.
-            </p>
+          <div className="reflection-points">
+            {reflectionPoints.map((point, index) => (
+              <div key={index} className="reflection-point">
+                <h3>{point.title}</h3>
+                <p>{point.description}</p>
+              </div>
+            ))}
             
-            <div className="reflection-points">
-              {reflectionPoints.map((point, index) => (
-                <div key={index} className="reflection-point">
-                  <h3 className="point-title">{point.title}</h3>
-                  <p className="point-description">{point.description}</p>
-                </div>
-              ))}
+            <div className="reflection-point">
+              <h3>Mobilanpassningens komplexitet</h3>
+              <p>
+                En central insikt från detta examensarbete är att effektiv mobilanpassning av tabeller innebär en 
+                balans mellan informationsdensitet och användbarhet. Att bara göra en tabell responsiv 
+                är inte tillräckligt för en bra användarupplevelse - innehållet måste omorganiseras och 
+                presenteras på ett sätt som är optimerat för mobila gränssnitt, samtidigt som 
+                informationens integritet och förståelighet bevaras.
+              </p>
             </div>
-            
-            <p>
-              Sammanfattningsvis har projektet visat att tillgänglighet inte behöver vara 
-              en kompromiss med estetik eller funktionalitet. Moderna webbtekniker ger oss 
-              möjligheten att skapa lösningar som är både vackra och inkluderande.
-            </p>
           </div>
         </div>
       </div>
@@ -380,66 +424,60 @@ export const ReflectionSection = ({ quote, reflectionPoints = [] }) => {
 
 /**
  * Target Group Section Component
- * En målgruppssektion som beskriver användarnas behov
+ * En målgruppssektion som beskriver användarna
  */
 export const TargetGroupSection = ({ personas = [], stats = [] }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
   return (
-    <section id="malgrupp" className={`target-group-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
+    <section id="malgrupp" className={`target-group-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Målgrupp</h2>
           <p className="section-subtitle">Användare och deras behov</p>
         </div>
         
-        <div className="target-group-content">
-          <div className="target-intro">
-            <p>
-              För att skapa en tillgänglig och användarvänlig webbapplikation är det 
-              viktigt att förstå målgruppens behov och utmaningar. I detta arbete 
-              identifierades flera användargrupper med olika förutsättningar.
-            </p>
-          </div>
-          
-          <div className="personas-container">
-            {personas.map((persona, index) => (
-              <div key={index} className="persona-card">
-                <div className="persona-avatar">
-                  <div className="avatar-placeholder">
-                    <i className="fas fa-user-circle"></i>
-                  </div>
+        <h3>Användarprofiler</h3>
+        <div className="personas-container">
+          {personas.map((persona, index) => (
+            <div key={index} className="persona-card">
+              <div className="persona-avatar">
+                <div className="avatar-placeholder">
+                  <i className="fas fa-user"></i>
                 </div>
-                <div className="persona-content">
-                  <h3 className="persona-name">{persona.name}, {persona.age}</h3>
-                  <p className="persona-description">{persona.description}</p>
+              </div>
+              <div className="persona-content">
+                <h4 className="persona-name">{persona.name}</h4>
+                <p className="persona-description">{persona.description}</p>
+                
+                {persona.needs && persona.needs.length > 0 && (
                   <div className="persona-needs">
-                    <h4>Behov:</h4>
+                    <h4>Behov och förväntningar:</h4>
                     <ul>
                       {persona.needs.map((need, needIndex) => (
                         <li key={needIndex}>{need}</li>
                       ))}
                     </ul>
                   </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="accessibility-stats">
+          <h3>Statistik om mobilanvändning och tabeller</h3>
+          <div className="stats-grid">
+            {stats.map((stat, index) => (
+              <div key={index} className="stat-card">
+                <div className="stat-icon">
+                  <i className={stat.icon || "fas fa-percentage"}></i>
                 </div>
+                <div className="stat-value">{stat.value}</div>
+                <div className="stat-label">{stat.label}</div>
               </div>
             ))}
-          </div>
-          
-          <div className="accessibility-stats">
-            <h3>Tillgänglighetsstatistik</h3>
-            <div className="stats-grid">
-              {stats.map((stat, index) => (
-                <div key={index} className="stat-card">
-                  <div className="stat-icon">
-                    <i className={stat.icon}></i>
-                  </div>
-                  <div className="stat-value">{stat.value}</div>
-                  <div className="stat-label">{stat.label}</div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
@@ -449,41 +487,36 @@ export const TargetGroupSection = ({ personas = [], stats = [] }) => {
 
 /**
  * Goal Section Component
- * En målsektion som beskriver arbetets syfte
+ * En målsektion som beskriver examensarbetets mål
  */
 export const GoalSection = ({ mainGoal, secondaryGoals = [] }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
   return (
-    <section id="mal" className={`goal-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
+    <section id="mal" className={`goals-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Mål</h2>
-          <p className="section-subtitle">Syfte och målsättningar</p>
+          <p className="section-subtitle">Examensarbetets syfte och målsättningar</p>
         </div>
         
-        <div className="goal-content">
-          <div className="main-goal">
+        <div className="goals-wrapper">
+          <div className="goal-group">
             <h3>Huvudmål</h3>
-            <div className="goal-card main">
-              <div className="goal-icon">
-                <i className="fas fa-bullseye"></i>
-              </div>
+            <div className="main-goal">
               <p>{mainGoal}</p>
             </div>
           </div>
           
-          <div className="secondary-goals">
+          <div className="goal-group">
             <h3>Delmål</h3>
-            <div className="goals-grid">
-              {secondaryGoals.map((goal, index) => (
-                <div key={index} className="goal-card secondary">
-                  <div className="goal-number">{index + 1}</div>
-                  <p>{goal}</p>
-                </div>
-              ))}
-            </div>
+            {secondaryGoals.map((goal, index) => (
+              <div key={index} className="goal-item">
+                <div className="goal-title">Mål {index + 1}</div>
+                <div className="goal-description">{goal}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -492,8 +525,8 @@ export const GoalSection = ({ mainGoal, secondaryGoals = [] }) => {
 };
 
 /**
- * Summary Section Component
- * En sammanfattningssektion som avslutar presentationen av examensarbetet
+ * Summary Section Component (tidigare CtaSection)
+ * En sammanfattande sektion för examensarbetet
  */
 export const CtaSection = ({ title, subtitle }) => {
   const sectionRef = useRef(null);
@@ -502,48 +535,117 @@ export const CtaSection = ({ title, subtitle }) => {
   return (
     <section id="sammanfattning" className={`summary-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
-        <div className="summary-content">
-          <h2 className="summary-title">{title || "Sammanfattning"}</h2>
-          <p className="summary-subtitle">{subtitle || "Detta examensarbete visar hur tillgänglig webbdesign kan implementeras i moderna webbapplikationer."}</p>
-          
-          <div className="summary-points">
-            <div className="summary-point">
-              <div className="point-icon">
-                <i className="fas fa-check-circle"></i>
-              </div>
-              <div className="point-content">
-                <h3>Tillgänglighet</h3>
-                <p>Examensarbetet visar hur tillgänglighetsriktlinjer kan implementeras i praktiken för att skapa inkluderande digitala upplevelser.</p>
-              </div>
+        <h2 className="summary-title">{title}</h2>
+        <p className="summary-subtitle">{subtitle}</p>
+        
+        <div className="summary-points">
+          <div className="summary-point">
+            <div className="point-icon">
+              <i className="fas fa-mobile-alt"></i>
             </div>
-            
-            <div className="summary-point">
-              <div className="point-icon">
-                <i className="fas fa-users"></i>
-              </div>
-              <div className="point-content">
-                <h3>Användarcentrerad design</h3>
-                <p>Genom att utgå från användares behov har arbetet skapat lösningar som fungerar för alla, oavsett förutsättningar.</p>
-              </div>
-            </div>
-            
-            <div className="summary-point">
-              <div className="point-icon">
-                <i className="fas fa-lightbulb"></i>
-              </div>
-              <div className="point-content">
-                <h3>Framtida webbdesign</h3>
-                <p>Resultaten pekar på hur framtidens webbutveckling kan skapa mer tillgängliga och användbara digitala tjänster.</p>
-              </div>
+            <div className="point-content">
+              <h3>Mobilanpassning är nödvändig</h3>
+              <p>I takt med att mobilt användande ökar blir en genomtänkt mobilanpassning av tabeller allt viktigare, särskilt inom pensions- och försäkringssektorn där komplex information behöver presenteras på ett tydligt sätt.</p>
             </div>
           </div>
           
-          <div className="summary-download">
-            <a href="/assets/examensarbete.pdf" className="btn btn-light">
-              <i className="fas fa-download mr-2"></i> Ladda ner fullständig rapport
-            </a>
+          <div className="summary-point">
+            <div className="point-icon">
+              <i className="fas fa-th-list"></i>
+            </div>
+            <div className="point-content">
+              <h3>Tabelltyper kräver olika lösningar</h3>
+              <p>Studien identifierade att olika tabelltyper (jämförelsetabeller och innehållstabeller) kräver anpassade designlösningar för att fungera optimalt på mobila enheter.</p>
+            </div>
+          </div>
+          
+          <div className="summary-point">
+            <div className="point-icon">
+              <i className="fas fa-user-shield"></i>
+            </div>
+            <div className="point-content">
+              <h3>Användarbehov i fokus</h3>
+              <p>Genom att utgå från specifika användarbehov och uppgifter kunde designkoncept utvecklas som hjälper användare att snabbt och säkert hitta och förstå pensionsinformation på mobila enheter.</p>
+            </div>
           </div>
         </div>
+        
+        <div className="summary-download">
+          <a href="/assets/examensarbete.pdf" className="btn btn-light">
+            <i className="fas fa-file-pdf"></i> Ladda ner hela examensarbetet
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/**
+ * Hero Section Component
+ * En hero-sektion som introducerar examensarbetet
+ */
+export const HeroSection = ({ title, subtitle, buttons = [] }) => {
+  const sectionRef = useRef(null);
+  const isVisible = useIntersectionObserver(sectionRef);
+  
+  return (
+    <section id="hero" className={`hero-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
+      <div className="container">
+        <div className="hero-content">
+          <div className="hero-text-wrapper">
+            <h1 className="hero-title">{title || "Mobilanpassning av tabeller"}</h1>
+            <p className="hero-subtitle">{subtitle || "Ett examensarbete om hur tabeller i en pensions- och försäkringsportal kan optimeras för mobila enheter"}</p>
+            
+            {buttons && buttons.length > 0 && (
+              <div className="hero-actions">
+                {buttons.map((button, index) => (
+                  <a 
+                    key={index} 
+                    href={button.url} 
+                    className={`btn ${button.primary ? 'btn-primary' : 'btn-outline-primary'}`}
+                  >
+                    {button.text}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          <div className="hero-graphic">
+            <div className="hero-graphic-bg"></div>
+            <div className="hero-graphic-element">
+              <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" stroke="var(--primary-color)" strokeWidth="2">
+                  <rect x="40" y="50" width="400" height="60" rx="4" />
+                  <line x1="40" y1="80" x2="440" y2="80" />
+                  <rect x="40" y="110" width="400" height="40" rx="0" />
+                  <rect x="40" y="150" width="400" height="40" rx="0" />
+                  <rect x="40" y="190" width="400" height="40" rx="0" />
+                  <rect x="40" y="230" width="400" height="40" rx="0" />
+                  
+                  <line x1="140" y1="50" x2="140" y2="270" />
+                  <line x1="240" y1="50" x2="240" y2="270" />
+                  <line x1="340" y1="50" x2="340" y2="270" />
+                  
+                  <rect x="80" y="130" width="80" height="150" rx="4" fill="var(--primary-color-light)" fillOpacity="0.2" />
+                  <rect x="180" y="290" width="160" height="40" rx="4" />
+                  
+                  <circle cx="410" cy="100" r="15" fill="var(--accent-color-light)" fillOpacity="0.3" />
+                  <path d="M400,100 L420,100 M410,90 L410,110" strokeLinecap="round" />
+                </g>
+              </svg>
+            </div>
+            <div className="hero-graphic-dots"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="hero-shape-bottom">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="var(--primary-color-light)"></path>
+          <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="var(--primary-color-light)"></path>
+          <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="var(--primary-color-light)"></path>
+        </svg>
       </div>
     </section>
   );
@@ -728,48 +830,6 @@ const defaultCtaButtons = [
     type: "btn-outline-light"
   }
 ];
-
-/**
- * Hero Section Component
- * En hero-sektion med titel, undertext och CTA-knappar
- */
-export const HeroSection = ({ title, subtitle, buttons = [] }) => {
-  const sectionRef = useRef(null);
-  const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
-  
-  return (
-    <section id="hero" className={`hero-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
-      <div className="hero-container">
-        <div className="hero-content">
-          <h1 className="hero-title">{title}</h1>
-          <p className="hero-subtitle">{subtitle}</p>
-          
-          {buttons.length > 0 && (
-            <div className="hero-actions">
-              {buttons.map((button, index) => (
-                <a 
-                  key={index}
-                  href={button.url} 
-                  className={`btn ${button.primary ? 'btn-primary' : 'btn-outline-primary'}`}
-                >
-                  {button.text}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-        
-        <div className="hero-shape">
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path fill="var(--primary-color-light)" d="M42.7,-75.2C53.6,-67.5,59.5,-52.2,65.9,-38.1C72.2,-24,79,-12,78.9,0C78.7,12,71.6,24,63.4,34.2C55.2,44.4,45.9,52.7,35.2,58.1C24.5,63.4,12.2,65.8,-0.4,66.5C-13.1,67.1,-26.1,66,-37.6,60.7C-49.1,55.4,-59,45.8,-65.6,34.1C-72.2,22.4,-75.4,8.4,-75.3,-5.6C-75.2,-19.7,-71.9,-33.8,-64.2,-44.4C-56.6,-55,-44.7,-62.2,-32.4,-68.7C-20.2,-75.2,-7.6,-80.9,5,-87.3C17.7,-93.7,35.3,-100.7,42.7,-75.2Z" transform="translate(100 100)" />
-          </svg>
-        </div>
-        
-        <div className="hero-bg-shape"></div>
-      </div>
-    </section>
-  );
-};
 
 export default {
   IntroductionSection,

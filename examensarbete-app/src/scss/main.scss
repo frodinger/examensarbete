@@ -3,7 +3,7 @@
 // --------------------------------------------------------------
 
 // 1. Konfiguration (variabler, mixins, funktioner)
-@use 'config';
+@use 'config' as *;
 
 // 2. Bas (reset, typografi, grundläggande layout)
 @use '_base' as base;
