@@ -5,6 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+// Initialisera axe-core endast i utvecklingsmiljö
+if (process.env.NODE_ENV !== 'production') {
+  const axe = require('@axe-core/react');
+  axe(React, ReactDOM, 1000);
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
