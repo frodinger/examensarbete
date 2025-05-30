@@ -1,19 +1,15 @@
-// Huvudsaklig SCSS-fil
-// Konsoliderad import-struktur för stilar
+// main.scss
+// Huvudfil som importerar alla moduler
+// --------------------------------------------------------------
 
-// 1. Variabler och mixins
-@use 'variables';
-@use 'mixins';
+// 1. Konfiguration (variabler, mixins, funktioner)
+@use 'config';
 
-// 2. Basstil och layout
-@use 'base';
-@use 'layout';
+// 2. Bas (reset, typografi, grundläggande layout)
+@use '_base' as base;
 
-// 3. Komponenter
-@use 'components';
+// 3. Moduler (komponenter och sektioner)
+@use '_modules' as modules;
 
-// 4. Sektioner 
-@use 'sections';
-
-// 5. Utilities
-@use 'utilities'; 
+// 4. Hjälpklasser (utilities)
+@use '_utilities' as utilities; 

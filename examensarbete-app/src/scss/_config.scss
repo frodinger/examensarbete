@@ -1,0 +1,299 @@
+// _config.scss
+// Nya designvariabler för applikationen
+// --------------------------------------------------------------
+
+// ===== VARIABLER =====
+
+// Färgpalett - Ljus, modern design med tydliga accenter
+:root {
+  // Primärfärger - Moderna blågröna toner
+  --primary-color: #38bdf8; // Ljus, energisk blå
+  --primary-color-dark: #0284c7;
+  --primary-color-light: #7dd3fc;
+  
+  // Sekundärfärger - Varm korall
+  --secondary-color: #fb7185; // Modern korall
+  --secondary-color-dark: #e11d48;
+  --secondary-color-light: #fda4af;
+  
+  // Accentfärger - Energisk lila
+  --accent-color: #a855f7; // Energisk lila
+  --accent-color-dark: #9333ea;
+  --accent-color-light: #c084fc;
+  
+  // Statusfärger - Tydliga, tillgängliga
+  --success-color: #22c55e;
+  --success-color-light: #bbf7d0;
+  --success-color-dark: #15803d;
+  
+  --warning-color: #f59e0b;
+  --warning-color-light: #fef3c7;
+  --warning-color-dark: #b45309;
+  
+  --danger-color: #ef4444;
+  --danger-color-light: #fee2e2;
+  --danger-color-dark: #b91c1c;
+  
+  --info-color: #3b82f6;
+  --info-color-light: #dbeafe;
+  --info-color-dark: #1d4ed8;
+  
+  // Neutrala färger - Rena, subtila gråtoner
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  
+  // Bakgrundsfärger
+  --bg-body: #ffffff;
+  --bg-light: var(--gray-50);
+  --bg-card: #ffffff;
+  --bg-hover: #f9fafb;
+  --bg-dark: var(--gray-800);
+  
+  // Textfärger
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-700);
+  --text-muted: var(--gray-500);
+  --text-light: var(--gray-400);
+  --text-white: #ffffff;
+  
+  // Kantfärger
+  --border-color: var(--gray-200);
+  --border-color-focus: var(--primary-color);
+  
+  // Skuggor
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  // Fokus
+  --focus-ring-color: var(--primary-color-light);
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+  
+  // Animationer
+  --transition-fast: 150ms;
+  --transition-normal: 250ms;
+  --transition-slow: 350ms;
+}
+
+// Mörkt tema
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-theme) {
+    --bg-body: var(--gray-900);
+    --bg-light: var(--gray-800);
+    --bg-card: var(--gray-800);
+    --bg-hover: var(--gray-700);
+    
+    --text-primary: var(--gray-100);
+    --text-secondary: var(--gray-300);
+    --text-muted: var(--gray-400);
+    --text-light: var(--gray-500);
+    
+    --border-color: var(--gray-700);
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Typografi - Modern, läsbar
+$font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-family-heading: 'Outfit', 'Inter', sans-serif;
+$font-family-mono: 'JetBrains Mono', monospace;
+
+// Fontstorlekar
+$font-size-xs: 0.75rem;    // 12px
+$font-size-sm: 0.875rem;   // 14px
+$font-size-base: 1rem;     // 16px
+$font-size-lg: 1.125rem;   // 18px
+$font-size-xl: 1.25rem;    // 20px
+$font-size-2xl: 1.5rem;    // 24px
+$font-size-3xl: 1.875rem;  // 30px
+$font-size-4xl: 2.25rem;   // 36px
+$font-size-5xl: 3rem;      // 48px
+$font-size-6xl: 3.75rem;   // 60px
+
+// Radavstånd
+$line-height-none: 1;
+$line-height-tight: 1.25;
+$line-height-snug: 1.375;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.625;
+$line-height-loose: 2;
+
+// Avstånd
+$spacing-0: 0;
+$spacing-1: 0.25rem;    // 4px
+$spacing-2: 0.5rem;     // 8px
+$spacing-3: 0.75rem;    // 12px
+$spacing-4: 1rem;       // 16px
+$spacing-5: 1.25rem;    // 20px
+$spacing-6: 1.5rem;     // 24px
+$spacing-8: 2rem;       // 32px
+$spacing-10: 2.5rem;    // 40px
+$spacing-12: 3rem;      // 48px
+$spacing-16: 4rem;      // 64px
+$spacing-20: 5rem;      // 80px
+$spacing-24: 6rem;      // 96px
+$spacing-32: 8rem;      // 128px
+
+// Map för spacing-utilities
+$spacings: (
+  "0": $spacing-0,
+  "1": $spacing-1,
+  "2": $spacing-2,
+  "3": $spacing-3,
+  "4": $spacing-4,
+  "5": $spacing-5,
+  "6": $spacing-6,
+  "8": $spacing-8,
+  "10": $spacing-10,
+  "12": $spacing-12,
+  "16": $spacing-16,
+  "20": $spacing-20,
+  "24": $spacing-24,
+  "32": $spacing-32
+);
+
+// Brytpunkter
+$breakpoint-xs: 480px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Rundade hörn
+$border-radius-none: 0;
+$border-radius-sm: 0.125rem;   // 2px
+$border-radius: 0.25rem;       // 4px
+$border-radius-md: 0.375rem;   // 6px
+$border-radius-lg: 0.5rem;     // 8px
+$border-radius-xl: 0.75rem;    // 12px
+$border-radius-2xl: 1rem;      // 16px
+$border-radius-3xl: 1.5rem;    // 24px
+$border-radius-full: 9999px;
+
+// Container
+$container-max-width-sm: 640px;
+$container-max-width-md: 768px;
+$container-max-width-lg: 1024px;
+$container-max-width-xl: 1280px;
+$container-max-width-2xl: 1536px;
+
+// Z-index
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// ===== MIXINS =====
+
+// Media queries
+@mixin breakpoint($point) {
+  @if $point == xs {
+    @media (min-width: $breakpoint-xs) { @content; }
+  } @else if $point == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $point == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $point == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $point == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  } @else if $point == 2xl {
+    @media (min-width: $breakpoint-2xl) { @content; }
+  }
+}
+
+// Container
+@mixin container($max-width: $container-max-width-xl) {
+  width: 100%;
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-4;
+  padding-right: $spacing-4;
+  
+  @include breakpoint(md) {
+    padding-left: $spacing-6;
+    padding-right: $spacing-6;
+  }
+}
+
+// Flexbox
+@mixin flex($direction: row, $justify: flex-start, $align: center, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+// Grid
+@mixin grid($columns: 1, $gap: $spacing-4) {
+  display: grid;
+  gap: $gap;
+  
+  @if $columns > 1 {
+    grid-template-columns: repeat($columns, minmax(0, 1fr));
+  }
+}
+
+// Responsivt grid
+@mixin responsive-grid($sm: 1, $md: 2, $lg: 3, $xl: 4, $gap: $spacing-6) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: repeat($sm, minmax(0, 1fr));
+  
+  @include breakpoint(md) {
+    grid-template-columns: repeat($md, minmax(0, 1fr));
+  }
+  
+  @include breakpoint(lg) {
+    grid-template-columns: repeat($lg, minmax(0, 1fr));
+  }
+  
+  @include breakpoint(xl) {
+    grid-template-columns: repeat($xl, minmax(0, 1fr));
+  }
+}
+
+// Fokusring
+@mixin focus-ring {
+  &:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+}
+
+// Skärmläsare-only
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+} 
