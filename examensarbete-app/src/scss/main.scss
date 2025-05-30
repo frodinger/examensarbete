@@ -1,18 +1,19 @@
-// Använd abstracts (variabler och mixins)
-@use 'abstracts' as *;
+// Huvudsaklig SCSS-fil
+// Konsoliderad import-struktur för stilar
 
-// Base styles
+// 1. Variabler och mixins
+@use 'variables';
+@use 'mixins';
+
+// 2. Basstil och layout
 @use 'base';
-@use 'global';
+@use 'layout';
 
-// Layout
-@use 'layout/navbar';
-@use 'layout/footer';
+// 3. Komponenter
+@use 'components';
 
-// Components
-@use 'components/hero';
+// 4. Sektioner 
+@use 'sections';
 
-// Pages
-@use 'pages/about';
-@use 'pages/contact';
-@use 'pages/data'; 
+// 5. Utilities
+@use 'utilities'; 

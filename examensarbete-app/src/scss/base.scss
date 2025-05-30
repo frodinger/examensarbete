@@ -1,0 +1,339 @@
+// Basstilar för hela projektet
+// Kombinerar reset, typografi och grundläggande element
+
+// Använd våra variabler och mixins
+@use 'variables';
+@use 'mixins';
+@use 'sass:color';
+
+/* Reset och normalisering */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: variables.$font-family-base;
+  font-size: variables.$font-size-base;
+  line-height: variables.$line-height-normal;
+  color: var(--text-color);
+  background-color: var(--body-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+// Typografi
+h1, h2, h3, h4, h5, h6 {
+  font-family: variables.$font-family-heading;
+  font-weight: 700;
+  line-height: variables.$line-height-tight;
+  margin-bottom: variables.$spacing-4;
+}
+
+h1 {
+  font-size: variables.$font-size-5xl;
+  
+  @include mixins.media-md {
+    font-size: variables.$font-size-6xl;
+  }
+}
+
+h2 {
+  font-size: variables.$font-size-4xl;
+  
+  @include mixins.media-md {
+    font-size: variables.$font-size-5xl;
+  }
+}
+
+h3 {
+  font-size: variables.$font-size-3xl;
+}
+
+h4 {
+  font-size: variables.$font-size-2xl;
+}
+
+h5 {
+  font-size: variables.$font-size-xl;
+}
+
+h6 {
+  font-size: variables.$font-size-lg;
+}
+
+p {
+  margin-bottom: variables.$spacing-4;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: var(--primary-color-dark);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+    text-decoration: underline;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+    text-decoration: none;
+  }
+  
+  &:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+    text-decoration: underline;
+  }
+}
+
+ul, ol {
+  padding-left: variables.$spacing-6;
+  margin-bottom: variables.$spacing-4;
+}
+
+// Formulärelement
+input, 
+textarea, 
+select, 
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+// Grundstil för formulärelement
+input, 
+textarea, 
+select {
+  display: block;
+  width: 100%;
+  padding: variables.$spacing-2 variables.$spacing-3;
+  border: 2px solid var(--border-color);
+  border-radius: variables.$border-radius;
+  background-color: white;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  
+  &:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+  }
+}
+
+// Knappar
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  
+  &:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  &:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+// Tabeller
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: variables.$spacing-6;
+}
+
+th, td {
+  padding: variables.$spacing-3;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+th {
+  font-weight: 600;
+  background-color: var(--gray-100);
+}
+
+// Bilder
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Blockquotes
+blockquote {
+  padding: variables.$spacing-4;
+  margin-bottom: variables.$spacing-6;
+  border-left: 4px solid var(--primary-color);
+  background-color: var(--gray-100);
+  font-style: italic;
+}
+
+// Hr
+hr {
+  height: 1px;
+  background-color: var(--border-color);
+  border: none;
+  margin: variables.$spacing-8 0;
+}
+
+// Code
+code, pre {
+  font-family: variables.$font-family-mono;
+  font-size: variables.$font-size-sm;
+  background-color: var(--gray-100);
+  border-radius: variables.$border-radius;
+}
+
+code {
+  padding: variables.$spacing-1 variables.$spacing-2;
+}
+
+pre {
+  padding: variables.$spacing-4;
+  margin-bottom: variables.$spacing-6;
+  overflow-x: auto;
+  
+  code {
+    padding: 0;
+    background: none;
+  }
+}
+
+// Tillgänglighet
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  z-index: variables.$z-index-tooltip;
+  background-color: var(--primary-color);
+  color: white;
+  padding: variables.$spacing-3 variables.$spacing-4;
+  text-decoration: none;
+  opacity: 0;
+  
+  &:focus {
+    top: 0;
+    opacity: 1;
+    outline: 3px solid var(--primary-color-dark);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Container
+.container {
+  @include mixins.container;
+}
+
+// Section
+.section {
+  padding: variables.$spacing-16 0;
+  
+  @include mixins.media-md {
+    padding: variables.$spacing-24 0;
+  }
+}
+
+// Övriga praktiska klasser
+.text-center {
+  text-align: center;
+}
+
+// Bildresponsivitet 
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+// Tillgänglighetsklasser
+.high-contrast {
+  --primary-color: #0056b3;
+  --primary-color-dark: #003d7a;
+  --secondary-color: #4b0082;
+  --text-color: #000000;
+  --body-bg: #ffffff;
+  --border-color: #333333;
+}
+
+// Hjälpklass för fokusindikatorer
+.focus-outline {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+// Förbättrad kontrast för interaktiva element
+button, 
+.btn, 
+input[type="submit"], 
+input[type="button"], 
+input[type="reset"] {
+  &:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+  }
+}
+
+// Enkla animationer för element
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+} 
