@@ -5,8 +5,7 @@ import './App.scss';
 import { 
   Navbar, 
   Footer,
-  ScrollToTop,
-  ScrollIndicator
+  ScrollToTop
 } from './components/SharedComponents';
 
 // Importera sektionskomponenter

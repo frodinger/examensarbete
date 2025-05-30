@@ -10,6 +10,9 @@ export const useIntersectionObserver = (ref, options = {}) => {
   useEffect(() => {
     if (!ref.current) return;
     
+    // Spara referensen till den aktuella DOM-noden
+    const currentRef = ref.current;
+    
     const observer = new IntersectionObserver(([entry]) => {
       // Om elementet är synligt och inte redan markerat som synligt
       if (entry.isIntersecting && !isVisible) {
@@ -17,12 +20,11 @@ export const useIntersectionObserver = (ref, options = {}) => {
       }
     }, { threshold: 0.2, ...options });
     
-    observer.observe(ref.current);
+    observer.observe(currentRef);
     
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      // Använd den sparade referensen i cleanup-funktionen
+      observer.unobserve(currentRef);
     };
   }, [ref, options, isVisible]);
 

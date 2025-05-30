@@ -89,7 +89,7 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
         
         <button 
           className={`navbar-toggle ${isOpen ? 'active' : ''}`} 
-          aria-label="Öppna meny"
+          aria-label={isOpen ? "Stäng meny" : "Öppna meny"}
           onClick={() => setIsOpen(!isOpen)}
         >
           <span></span>
@@ -436,18 +436,4 @@ export const Hero = ({ title, subtitle, buttons, backgroundImage, overlay = fals
       </div>
     </section>
   );
-};
-
-export default {
-  Footer,
-  Navbar,
-  SearchComponent,
-  Card,
-  Alert,
-  Badge,
-  Tabs,
-  ScrollToTop,
-  ScrollIndicator,
-  Modal,
-  Hero
 }; 
