@@ -976,12 +976,14 @@
   
   .results-grid {
     margin-bottom: $spacing-12;
+    gap: $spacing-10;
   }
   
   .result-card {
     background-color: var(--bg-card);
     border-radius: $border-radius-lg;
-    padding: $spacing-6;
+    padding: $spacing-8;
+    margin-bottom: $spacing-8;
     height: 100%;
     box-shadow: var(--shadow);
     border-left: 4px solid var(--primary-color);
@@ -1198,6 +1200,10 @@
   padding: $spacing-16 0;
   background-color: var(--bg-light);
   
+  @include breakpoint(md) {
+    padding: $spacing-20 0;
+  }
+  
   .section-title, .section-subtitle {
     text-align: left;
   }
@@ -1210,7 +1216,6 @@
   }
   
   .reflection-content {
-    max-width: 800px;
     margin: 0 auto;
     
     .reflection-blockquote {
