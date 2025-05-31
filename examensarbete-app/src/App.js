@@ -60,22 +60,11 @@ function App() {
   const heroData = {
     title: "Mobilanpassning av tabeller",
     subtitle: "Ett examensarbete om hur tabeller i en pensions- och försäkringsportal kan optimeras för mobila enheter",
-    buttons: [
-      { text: "Läs mer", url: "#introduktion", primary: true },
-      { text: "Ladda ner rapport", url: "/assets/examensarbete.pdf", primary: false }
-    ]
   };
 
   const introData = {
     description: "Det här examensarbetet undersöker hur tabeller i en digital pensions- och försäkringsportal kan optimeras för mobila enheter för att förbättra <strong>tillgänglighet, tydlighet och användarupplevelse</strong>. I takt med att mobilanvändandet ökar blir det allt tydligare att traditionella, desktop-anpassade tabellösningar inte fungerar optimalt på små skärmar—särskilt när det gäller att presentera tät och strukturerad information."
   };
-
-  const timelineEvents = [
-    { year: "2020", description: "Förstudie kring mobilanvändning inom finansiella tjänster", icon: "fas fa-mobile-alt" },
-    { year: "2021", description: "Ökning av mobilanvändare inom pensions- och försäkringstjänster", icon: "fas fa-chart-line" },
-    { year: "2022", description: "Identifiering av problem med tabellpresentation på mobila enheter", icon: "fas fa-table" },
-    { year: "2023", description: "Praktikperiod på techbyrån Meepo med fokus på mobilanpassning", icon: "fas fa-laptop-code" }
-  ];
 
   const methodSteps = [
     {
@@ -210,7 +199,7 @@ function App() {
       <main className="main-content">
         <HeroSection {...heroData} />
         <IntroductionSection {...introData} />
-        <BackgroundSection timelineEvents={timelineEvents} />
+        <BackgroundSection />
         <MethodSection steps={methodSteps} />
         <ResultsSection results={resultsData} />
         <ReflectionSection {...reflectionData} />
