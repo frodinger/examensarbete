@@ -65,6 +65,15 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
     }
   };
 
+  // Hantera tangentbordshändelser (space och enter)
+  const handleKeyDown = (e, sectionId) => {
+    // Hantera både Enter (13) och Space (32) tangenterna
+    if (e.keyCode === 32 || e.key === ' ' || e.keyCode === 13 || e.key === 'Enter') {
+      e.preventDefault();
+      scrollToSection(e, sectionId);
+    }
+  };
+
   // Navbar-klass baserad på props och scroll-tillstånd
   const navbarClass = `navbar ${isScrolled ? 'navbar-scrolled' : ''} ${transparent && !isScrolled ? 'navbar-transparent' : ''}`;
 
@@ -105,6 +114,9 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
                   href={`#${link.id}`} 
                   className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
                   onClick={(e) => scrollToSection(e, link.id)}
+                  onKeyDown={(e) => handleKeyDown(e, link.id)}
+                  role="button"
+                  tabIndex="0"
                 >
                   {link.label}
                 </a>

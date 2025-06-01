@@ -1546,7 +1546,6 @@
   z-index: 1;
 }
 
-/* Background Section - Updated for no images */
 .background-section {
   background-color: var(--bg-light);
   padding: $spacing-16 0;
@@ -1561,39 +1560,6 @@
       align-items: flex-start;
     }
   }
-  
-  .background-pattern {
-    flex: 0 0 40%;
-    
-    @include breakpoint(md) {
-      order: 2;
-    }
-    
-    .pattern-element {
-      height: 300px;
-      border-radius: $border-radius-lg;
-      background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--accent-color-light) 100%);
-      position: relative;
-      overflow: hidden;
-      
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: 
-          radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 30%),
-          radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 30%);
-      }
-      
-      @include breakpoint(md) {
-        height: 400px;
-      }
-    }
-  }
-  
   .background-text {
     flex: 1;
     
@@ -1880,12 +1846,19 @@
   color: var(--text-secondary);
   font-weight: 500;
   text-decoration: none;
-  transition: color var(--transition-fast) ease;
+  transition: color var(--transition-fast) ease, outline var(--transition-fast) ease;
   padding: $spacing-2 0;
   position: relative;
+  cursor: pointer;
   
   &:hover {
     color: var(--primary-color);
+  }
+  
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+    border-radius: $border-radius-sm;
   }
   
   &.active {

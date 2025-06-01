@@ -77,10 +77,6 @@ export const BackgroundSection = ({ timelineEvents = [] }) => {
         </div>
         
         <div className="background-content">
-          <div className="background-pattern">
-            <div className="pattern-element"></div>
-          </div>
-          
           <div className="background-text">
             <h3>Forskningsöversikt</h3>
             <p>
