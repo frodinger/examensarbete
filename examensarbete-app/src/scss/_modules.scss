@@ -4,6 +4,117 @@
 
 @use 'config' as *;
 
+/* === MIXINS === */
+
+// Hover-effekt med elevation
+@mixin hover-elevation($y-offset: -4px, $shadow: var(--shadow-md)) {
+  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+  
+  &:hover {
+    transform: translateY($y-offset);
+    box-shadow: $shadow;
+  }
+}
+
+// Fokus-stil för tillgänglighet
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.3);
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// Knappstil
+@mixin button-variant($bg, $color, $border, $hover-bg, $hover-border) {
+  background-color: $bg;
+  color: $color;
+  border-color: $border;
+  
+  &:hover, &:focus {
+    background-color: $hover-bg;
+    border-color: $hover-border;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Utplaceringsstil med icon
+@mixin list-item-with-icon($icon-color: var(--primary-color)) {
+  position: relative;
+  padding-left: $spacing-6;
+  
+  &::before {
+    content: '•';
+    position: absolute;
+    left: $spacing-2;
+    color: $icon-color;
+    font-weight: bold;
+  }
+}
+
+// Tillgänglig dold text för skärmläsare
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Pausbara animationer för tillgänglighet
+@mixin pausable-animation($animation-name, $duration, $timing-function) {
+  animation: $animation-name $duration $timing-function;
+  
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+  }
+}
+
+// Tillgängliga attributstöd för popup element
+@mixin aria-popup-support {
+  // Lägg till ARIA-attribut i JS-koden:
+  // aria-haspopup="true" på trigger-element
+  // aria-expanded="false|true" på trigger-element (ändras via JS)
+  // aria-hidden="true|false" på popup-element (ändras via JS)
+  
+  &[aria-hidden="true"] {
+    display: none;
+    pointer-events: none;
+  }
+  
+  &[aria-hidden="false"] {
+    display: block;
+  }
+}
+
+// Skipplänk för tillgänglighet
+@mixin skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: $spacing-3;
+  z-index: $z-index-fixed + 10; // Högre än fixed element
+  transition: top 0.3s ease;
+  
+  &:focus {
+    top: 0;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 /* === KOMPONENTDESIGNER === */
 
 /* Card */
@@ -12,18 +123,18 @@
   border-radius: $border-radius-lg;
   box-shadow: var(--shadow);
   overflow: hidden;
-  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
   height: 100%;
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-  }
+  @include hover-elevation;
   
   &-img {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    
+    // Förbättra a11y genom att säkerställa alt-text
+    &:not([alt]) {
+      outline: 2px solid var(--danger-color);
+    }
   }
   
   &-body {
@@ -52,6 +163,12 @@
   &-link {
     color: var(--primary-color);
     font-weight: 500;
+    min-height: 24px; // WCAG 2.2 AA för klickbar storlek
+    min-width: 24px; // WCAG 2.2 AA för klickbar storlek
+    display: inline-flex;
+    align-items: center;
+    
+    @include focus-visible;
     
     &:hover {
       color: var(--primary-color-dark);
@@ -401,6 +518,10 @@
   visibility: hidden;
   transition: opacity var(--transition-normal) ease, visibility var(--transition-normal) ease;
   
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+  
   &.show {
     opacity: 1;
     visibility: visible;
@@ -418,6 +539,11 @@
   transform: translateY(20px);
   transition: transform var(--transition-normal) ease;
   z-index: $z-index-modal;
+  
+  @media (prefers-reduced-motion: reduce) {
+    transform: translateY(0);
+    transition: none;
+  }
   
   &.show {
     transform: translateY(0);
@@ -456,7 +582,14 @@
     line-height: 1;
     cursor: pointer;
     color: var(--text-muted);
-    padding: 0;
+    padding: $spacing-2;
+    min-width: 44px; // Större pga vanligt viktigt kontrollelement
+    min-height: 44px; // Större pga vanligt viktigt kontrollelement
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    @include focus-visible;
     
     &:hover {
       color: var(--text-primary);
@@ -823,8 +956,7 @@
         padding: 0;
         
         li {
-          position: relative;
-          padding-left: $spacing-4;
+          @include list-item-with-icon;
           margin-bottom: $spacing-1;
           font-size: $font-size-sm;
           color: var(--text-secondary);
@@ -832,13 +964,6 @@
           
           &:last-child {
             margin-bottom: 0;
-          }
-          
-          &::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--primary-color);
           }
         }
       }
@@ -857,14 +982,17 @@
     margin-bottom: $spacing-2;
   }
   
-  .form-control {
+  input {
     width: 100%;
-    padding: $spacing-3 $spacing-10;
+    padding: $spacing-3 $spacing-8;
     border-radius: $border-radius-full;
     border: 1px solid var(--border-color);
     background-color: var(--bg-card);
     transition: all var(--transition-fast) ease;
-    font-size: $font-size-base;
+    
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
     
     &:focus {
       outline: none;
@@ -876,6 +1004,14 @@
       border-color: var(--danger-color);
       background-color: rgba(var(--danger-rgb), 0.05);
     }
+  }
+  
+  .search-btn, 
+  .search-clear {
+    min-height: 24px; // WCAG 2.2 AA krav
+    min-width: 24px; // WCAG 2.2 AA krav
+    
+    @include focus-visible;
   }
   
   .search-btn {
@@ -892,6 +1028,56 @@
     cursor: pointer;
   }
   
+  .search-clear {
+    position: absolute;
+    right: $spacing-3;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    border-radius: $border-radius-full;
+    color: white;
+    font-size: 1rem;
+    padding: $spacing-2 $spacing-3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast) ease;
+    
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+    
+    @include breakpoint(md) {
+      padding: $spacing-1 $spacing-3;
+      font-size: 0.9rem;
+    }
+    
+    i {
+      @media (max-width: #{map-get($breakpoints, 'md') - 1px}) {
+        margin-right: 0;
+      }
+      
+      @include breakpoint(md) {
+        margin-right: $spacing-2;
+      }
+    }
+    
+    span {
+      @media (max-width: #{map-get($breakpoints, 'md') - 1px}) {
+        display: none;
+      }
+    }
+    
+    &:hover {
+      color: white;
+      background-color: var(--danger-color-dark);
+      border-color: var(--danger-color-dark);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+  
   .search-info {
     font-size: $font-size-sm;
     color: var(--text-muted);
@@ -906,13 +1092,6 @@
     border-radius: $border-radius;
     border: 1px dashed var(--border-color);
     margin-bottom: $spacing-4;
-  }
-  
-  .error-message {
-    color: var(--danger-color);
-    font-size: $font-size-sm;
-    margin-top: $spacing-1;
-    display: block;
   }
 }
 
@@ -1284,19 +1463,9 @@
       padding: 0;
       
       li {
-        position: relative;
-        padding-left: $spacing-6;
+        @include list-item-with-icon;
         margin-bottom: $spacing-2;
         color: var(--text-secondary);
-        
-        &::before {
-          content: '•';
-          position: absolute;
-          left: $spacing-2;
-          top: 0;
-          color: var(--primary-color);
-          font-weight: bold;
-        }
       }
     }
   }
@@ -1545,7 +1714,7 @@
 
 // Animation för sektioner när de scrollas in i vy
 .animate-in {
-  animation: fadeInUp 0.8s ease forwards;
+  @include pausable-animation(fadeInUp, 0.8s, ease forwards);
 }
 
 @keyframes fadeInUp {
@@ -1557,6 +1726,37 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Search-highlight animation */
+.search-highlight {
+  @include pausable-animation(search-highlight-pulse, 2s, ease-in-out);
+  scroll-margin-top: 100px; /* Extra utrymme från toppen för att inte hamna under navbar */
+}
+
+@keyframes search-highlight-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
+  }
+  20% {
+    box-shadow: 0 0 0 20px rgba(var(--primary-rgb), 0.1);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(var(--primary-rgb), 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
+  }
+}
+
+.search-text-highlight {
+  background-color: rgba(var(--primary-rgb), 0.2);
+  color: var(--primary-color-dark);
+  font-weight: bold;
+  padding: 0 2px;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 /* === KNAPPAR === */
@@ -1575,12 +1775,11 @@
   text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-fast) ease;
+  min-height: 24px; // WCAG 2.2 AA krav
+  min-width: 24px; // WCAG 2.2 AA krav
   
   // Fokustillstånd för tillgänglighet
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.3);
-  }
+  @include focus-visible;
   
   // Aktiv (nedtryckt) knapp
   &:active {
@@ -1603,58 +1802,46 @@
 
 // Primär knapp (färgad i primärfärgen)
 .btn-primary {
-  background-color: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-  
-  &:hover, &:focus {
-    background-color: var(--primary-color-dark);
-    border-color: var(--primary-color-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
+  @include button-variant(
+    var(--primary-color), 
+    white, 
+    var(--primary-color), 
+    var(--primary-color-dark), 
+    var(--primary-color-dark)
+  );
 }
 
 // Sekundär knapp 
 .btn-secondary {
-  background-color: var(--secondary-color);
-  color: white;
-  border-color: var(--secondary-color);
-  
-  &:hover, &:focus {
-    background-color: var(--secondary-color-dark);
-    border-color: var(--secondary-color-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
+  @include button-variant(
+    var(--secondary-color), 
+    white, 
+    var(--secondary-color), 
+    var(--secondary-color-dark), 
+    var(--secondary-color-dark)
+  );
 }
 
 // Accent knapp
 .btn-accent {
-  background-color: var(--accent-color);
-  color: white;
-  border-color: var(--accent-color);
-  
-  &:hover, &:focus {
-    background-color: var(--accent-color-dark);
-    border-color: var(--accent-color-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
+  @include button-variant(
+    var(--accent-color), 
+    white, 
+    var(--accent-color), 
+    var(--accent-color-dark), 
+    var(--accent-color-dark)
+  );
 }
 
 // Ljus knapp (vit)
 .btn-light {
-  background-color: white;
-  color: var(--primary-color);
-  border-color: var(--border-color);
-  
-  &:hover, &:focus {
-    background-color: var(--gray-100);
-    color: var(--primary-color-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
+  @include button-variant(
+    white, 
+    var(--primary-color), 
+    var(--border-color), 
+    var(--gray-100), 
+    var(--border-color)
+  );
 }
 
 // Outline primär knapp
@@ -1720,11 +1907,28 @@
     background-color: var(--bg-card);
     transition: all var(--transition-fast) ease;
     
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+    
     &:focus {
       outline: none;
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
     }
+    
+    &.error {
+      border-color: var(--danger-color);
+      background-color: rgba(var(--danger-rgb), 0.05);
+    }
+  }
+  
+  .search-btn, 
+  .search-clear {
+    min-height: 24px; // WCAG 2.2 AA krav
+    min-width: 24px; // WCAG 2.2 AA krav
+    
+    @include focus-visible;
   }
   
   .search-btn {
@@ -1758,6 +1962,10 @@
     cursor: pointer;
     transition: all var(--transition-fast) ease;
     
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+    
     @include breakpoint(md) {
       padding: $spacing-1 $spacing-3;
       font-size: 0.9rem;
@@ -1784,12 +1992,6 @@
       background-color: var(--danger-color-dark);
       border-color: var(--danger-color-dark);
       box-shadow: var(--shadow-sm);
-    }
-    
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(var(--danger-rgb), 0.3);
-      color: white;
     }
   }
   
@@ -1832,19 +2034,31 @@
   z-index: $z-index-fixed;
   box-shadow: var(--shadow-md);
   
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+  
+  // Visas endast när knappen är synlig
   &.show {
     opacity: 1;
     visibility: visible;
   }
   
+  @include focus-visible;
+  
   &:hover {
     background-color: var(--primary-color-dark);
     transform: translateY(-5px);
-    animation: none;
   }
   
   i {
     font-size: $font-size-lg;
+  }
+  
+  // SR-only text för att förklara funktionen
+  &::after {
+    @include sr-only;
+    content: "Scrolla till toppen av sidan";
   }
 }
 
@@ -1891,7 +2105,7 @@
   padding: 0;
   display: flex;
   flex-direction: row; /* Horisontell layout */
-  gap: $spacing-6;
+  gap: $spacing-2;
 }
 
 .navbar-menu {
@@ -1916,7 +2130,7 @@
     
     .navbar-nav {
       flex-direction: column;
-      gap: $spacing-4;
+      gap: $spacing-2;
     }
   }
 }
@@ -1984,20 +2198,20 @@
   color: var(--text-secondary);
   font-weight: 500;
   text-decoration: none;
-  transition: color var(--transition-fast) ease, outline var(--transition-fast) ease;
-  padding: $spacing-2 0;
+  transition: color var(--transition-fast) ease;
+  padding: $spacing-2 $spacing-3;
   position: relative;
   cursor: pointer;
+  min-height: 24px; // WCAG 2.2 AA krav
+  min-width: 24px; // WCAG 2.2 AA krav
+  display: inline-flex;
+  align-items: center;
   
   &:hover {
     color: var(--primary-color);
   }
   
-  &:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 3px;
-    border-radius: $border-radius-sm;
-  }
+  @include focus-visible;
   
   &.active {
     color: var(--primary-color);
@@ -2010,6 +2224,12 @@
       width: 100%;
       height: 2px;
       background-color: var(--primary-color);
+    }
+    
+    // Tillgänglig indikator för skärmläsare
+    &::before {
+      @include sr-only;
+      content: "Aktuell sida:";
     }
   }
 }
@@ -2201,4 +2421,10 @@
   border-radius: 2px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+/* === SKIPPLÄNK === */
+
+.skip-link {
+  @include skip-link;
 }
