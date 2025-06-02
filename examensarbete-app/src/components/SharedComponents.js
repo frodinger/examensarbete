@@ -422,13 +422,6 @@ export const Modal = ({ isOpen, onClose, title, children, footer }) => {
         >
           <div className="modal-header">
             <h2 className="modal-title" id="modal-title">{title}</h2>
-            <button 
-              className="close" 
-              onClick={onClose}
-              aria-label="Stäng"
-            >
-              &times;
-            </button>
           </div>
           <div className="modal-body">
             {children}
@@ -900,7 +893,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
           </div>
         </div>
         <div className="modal-footer">
-          <button className="btn btn-outline-secondary" onClick={onClose}>
+          <button className="btn btn-primary btn-rounded" onClick={onClose}>
             Stäng
           </button>
         </div>

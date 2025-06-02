@@ -581,18 +581,26 @@
     font-size: 1.5rem;
     line-height: 1;
     cursor: pointer;
-    color: var(--text-muted);
+    color: white;
     padding: $spacing-2;
     min-width: 44px; // Större pga vanligt viktigt kontrollelement
     min-height: 44px; // Större pga vanligt viktigt kontrollelement
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--primary-color);
+    border-radius: 50%; // Helt rund knapp
+    transition: background-color var(--transition-fast) ease;
+    
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
     
     @include focus-visible;
     
     &:hover {
-      color: var(--text-primary);
+      color: white;
+      background-color: var(--primary-color-dark);
     }
   }
 }
@@ -1895,6 +1903,23 @@
   width: 100%;
 }
 
+// Rundad knapp
+.btn-rounded {
+  border-radius: $border-radius-full;
+  padding-left: $spacing-8;
+  padding-right: $spacing-8;
+  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+  
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+  
+  &:hover, &:focus {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
 /* === SÖKFUNKTIONALITET === */
 
 .search-container {
@@ -2056,7 +2081,11 @@
     visibility: visible;
   }
   
-  @include focus-visible;
+  // Förhindra att knappen flyttar på sig vid fokus
+  &:focus, &:focus-visible {
+    outline-offset: 0;
+    transform: translateY(0); // Behåll position
+  }
   
   &:hover {
     background-color: var(--primary-color-dark);
