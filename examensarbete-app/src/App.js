@@ -193,24 +193,26 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Navbar transparent={!scrolled} activeSection={activeSection} />
-      
-      <main className="main-content">
-        <HeroSection {...heroData} />
-        <IntroductionSection {...introData} />
-        <BackgroundSection />
-        <MethodSection steps={methodSteps} />
-        <ResultsSection results={resultsData} />
-        <ReflectionSection {...reflectionData} />
-        <TargetGroupSection personas={personasData} stats={accessibilityStats} />
-        <GoalSection {...goalData} />
-        <CtaSection {...summaryData} />
-      </main>
-      
-      <Footer />
-      <ScrollToTop />
-    </div>
+    <>
+      <div className="App">
+        <Navbar transparent={!scrolled} activeSection={activeSection} />
+        
+        <main className="main-content">
+          <HeroSection {...heroData} />
+          <IntroductionSection {...introData} />
+          <BackgroundSection />
+          <MethodSection steps={methodSteps} />
+          <ResultsSection results={resultsData} />
+          <ReflectionSection {...reflectionData} />
+          <TargetGroupSection personas={personasData} stats={accessibilityStats} />
+          <GoalSection {...goalData} />
+          <CtaSection {...summaryData} />
+        </main>
+        
+        <Footer />
+        <ScrollToTop />
+      </div>
+    </>
   );
 }
 
