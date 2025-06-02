@@ -341,8 +341,9 @@ em, i {
 }
 
 .focusable:focus {
-  box-shadow: 0 0 0 0.2rem var(--primary-color-light) !important;
-  outline: none !important;
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  box-shadow: none;
 }
 
 /* === MEDIA QUERIES === */
