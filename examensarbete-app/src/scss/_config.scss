@@ -211,7 +211,7 @@ $font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-family-heading: 'Outfit', 'Inter', sans-serif;
 $font-family-mono: 'JetBrains Mono', monospace;
 
-// Mixin för responsiva breakpoints (används aktivt i projektet)
+// Mixin för responsiva breakpoints
 @mixin breakpoint($breakpoint) {
   @if map-has-key($breakpoints, $breakpoint) {
     @media (min-width: map-get($breakpoints, $breakpoint)) {
@@ -253,17 +253,17 @@ $font-family-mono: 'JetBrains Mono', monospace;
     
     // Primär, sekundär och accentfärg anpassade för mörkt läge med bättre kontrast
     // Använd ljusare versioner för knappar
-    --primary-color: hsl(222, 80%, 65%);    // Betydligt ljusare primärfärg för bättre kontrast
-    --primary-color-light: hsl(222, 80%, 85%); // Extremt ljus för maximal kontrast mot mörk bakgrund
-    --primary-color-dark: hsl(222, 55%, 45%);  // Ljusare mörk version
+    --primary-color: hsl(222, 80%, 65%);
+    --primary-color-light: hsl(222, 80%, 85%);
+    --primary-color-dark: hsl(222, 55%, 45%);
     
-    --secondary-color: hsl(183, 60%, 65%);  // Ljusare version för bättre synlighet
-    --secondary-color-light: hsl(183, 80%, 85%); // Extremt ljus för maximal kontrast mot mörk bakgrund
-    --secondary-color-dark: hsl(183, 40%, 45%);  // Ljusare mörk version
+    --secondary-color: hsl(183, 60%, 65%);
+    --secondary-color-light: hsl(183, 80%, 85%);
+    --secondary-color-dark: hsl(183, 40%, 45%);
     
-    --accent-color: hsl(348, 60%, 65%);     // Ljusare version för bättre synlighet
-    --accent-color-light: hsl(348, 90%, 85%); // Extremt ljus för maximal kontrast mot mörk bakgrund
-    --accent-color-dark: hsl(348, 50%, 45%);  // Ljusare mörk version
+    --accent-color: hsl(348, 60%, 65%);
+    --accent-color-light: hsl(348, 90%, 85%);
+    --accent-color-dark: hsl(348, 50%, 45%);
     
     // Neutrala färger för mörkt tema
     --gray-50: hsl(210, 15%, 20%);
@@ -284,17 +284,17 @@ $font-family-mono: 'JetBrains Mono', monospace;
     --danger-rgb: 235, 100, 100;
     
     // Hover-effekter i mörkt tema (ljusare varianter)
-    --primary-hover: hsl(222, 85%, 75%);   // Ännu ljusare variant för hover i mörkt läge
-    --secondary-hover: hsl(183, 85%, 75%); // Ännu ljusare variant för hover i mörkt läge
-    --accent-hover: hsl(348, 95%, 75%);    // Ännu ljusare variant för hover i mörkt läge
-    --danger-hover: hsl(0, 95%, 75%);      // Ännu ljusare variant för hover i mörkt läge
+    --primary-hover: hsl(222, 85%, 75%);
+    --secondary-hover: hsl(183, 85%, 75%);
+    --accent-hover: hsl(348, 95%, 75%);
+    --danger-hover: hsl(0, 95%, 75%);
     
     // Gradient-relaterade variabler för mörkt tema - mörkare än standardfärgerna
-    --gradient-primary-start: hsl(222, 55%, 35%);   // Mörkare variant för gradienter i mörkt läge
-    --gradient-primary-end: hsl(222, 65%, 25%);     // Ännu mörkare variant för gradienter i mörkt läge
-    --gradient-accent-start: hsl(222, 55%, 35%);    // Mörkare variant för gradienter i mörkt läge
-    --gradient-accent-end: hsl(183, 45%, 30%);      // Mörkare variant för gradienter i mörkt läge
-    --text-on-gradient: white;                      // Behåll vit text på gradienterna
+    --gradient-primary-start: hsl(222, 55%, 35%);
+    --gradient-primary-end: hsl(222, 65%, 25%);
+    --gradient-accent-start: hsl(222, 55%, 35%);
+    --gradient-accent-end: hsl(183, 45%, 30%);
+    --text-on-gradient: white;
   }
 }
 
