@@ -484,7 +484,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
   const inputRef = React.useRef(null);
   const modalRef = React.useRef(null);
   
-  // Data för sökbara sektioner
+  // Data för sökbara sektioner (används som fallback/komplement till DOM-sökning)
   const sections = [
     { id: 1, title: "Introduktion till examensarbetet", section: "introduktion", content: "Information om examensarbetets syfte och bakgrund." },
     { id: 2, title: "Bakgrund och tidigare forskning", section: "bakgrund", content: "Forskningsbakgrund och tidigare studier inom området." },
@@ -511,6 +511,8 @@ export const SearchModal = ({ isOpen, onClose }) => {
       setSearchTerm('');
       setSearchResults([]);
       setSearchError('');
+      // Ta bort eventuella markeringar på sidan
+      removeHighlightsFromPage();
     }
   }, [isOpen]);
 
@@ -546,6 +548,183 @@ export const SearchModal = ({ isOpen, onClose }) => {
       document.removeEventListener('mousedown', handleBackdropClick);
     };
   }, [isOpen, onClose]);
+
+  // Ta bort tidigare markeringar från sidan
+  const removeHighlightsFromPage = () => {
+    // Ta bort alla markeringar som kan ha lagts till tidigare
+    const highlightedElements = document.querySelectorAll('.search-text-highlight');
+    highlightedElements.forEach(el => {
+      const parent = el.parentNode;
+      if (parent) {
+        parent.replaceChild(document.createTextNode(el.textContent || ''), el);
+        // Normalisera för att kombinera närliggande textNodes
+        parent.normalize();
+      }
+    });
+  };
+  
+  // Markera sökordet i innehållet
+  const highlightText = (text, term) => {
+    if (!term || !text) return text;
+    
+    const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(regex, '<mark class="search-text-highlight">$1</mark>');
+  };
+  
+  // Rekursivt markera text i DOM-element
+  const highlightTextInElement = (element, term) => {
+    if (!element || !term) return;
+    
+    // Hoppa över vissa element
+    if (
+      element.tagName === 'SCRIPT' || 
+      element.tagName === 'STYLE' || 
+      element.classList.contains('search-modal') || 
+      element.nodeName === 'MARK'
+    ) {
+      return;
+    }
+    
+    // Gå igenom alla barn-noder
+    Array.from(element.childNodes).forEach(node => {
+      if (node.nodeType === 3) { // Text node
+        const text = node.nodeValue;
+        if (text && text.toLowerCase().includes(term.toLowerCase())) {
+          // Skapa en temporär div för att konvertera HTML-strängen till element
+          const temp = document.createElement('div');
+          temp.innerHTML = highlightText(text, term);
+          
+          // Ersätt textnoden med de nya markerade elementen
+          const fragment = document.createDocumentFragment();
+          while (temp.firstChild) {
+            fragment.appendChild(temp.firstChild);
+          }
+          
+          if (node.parentNode) {
+            node.parentNode.replaceChild(fragment, node);
+          }
+        }
+      } else if (node.nodeType === 1) { // Element node
+        highlightTextInElement(node, term);
+      }
+    });
+  };
+  
+  // Extraktion av text från ett element och dess underliggande noder
+  const extractTextFromElement = (element) => {
+    if (!element) return '';
+    
+    // Ignorera script, style och hidden element
+    if (
+      element.tagName === 'SCRIPT' || 
+      element.tagName === 'STYLE' || 
+      element.style.display === 'none' || 
+      element.style.visibility === 'hidden'
+    ) {
+      return '';
+    }
+    
+    // Om elementet har text, extrahera den
+    let text = element.innerText || element.textContent || '';
+    
+    return text.trim();
+  };
+  
+  // Söker genom faktiskt DOM-innehåll
+  const searchInDOM = (term) => {
+    if (!term || term.length < 2) return [];
+    
+    const lowercaseTerm = term.toLowerCase();
+    const results = [];
+    const processedSectionIds = new Set();
+    
+    // Hämta alla sektioner på sidan
+    const allSections = document.querySelectorAll('section[id], div[id]');
+    
+    allSections.forEach(section => {
+      const sectionId = section.id;
+      if (!sectionId) return; // Hoppa över om ingen id
+      
+      // Sektionsnamn/titel (från rubriken eller id)
+      let sectionTitle = '';
+      const headingElement = section.querySelector('h1, h2, h3, h4, h5, h6');
+      if (headingElement) {
+        sectionTitle = headingElement.innerText || headingElement.textContent;
+      } else {
+        // Använd id som fallback och formatera den
+        sectionTitle = sectionId
+          .replace(/-/g, ' ')
+          .replace(/\b\w/g, char => char.toUpperCase());
+      }
+      
+      // Extrahera all text från sektionen
+      const sectionContent = extractTextFromElement(section);
+      
+      // Kontrollera om söktermen finns i titeln eller innehållet
+      const matchesTitle = sectionTitle.toLowerCase().includes(lowercaseTerm);
+      const matchesContent = sectionContent.toLowerCase().includes(lowercaseTerm);
+      
+      if (matchesTitle || matchesContent) {
+        // Hitta excerpt med söktermen i kontext
+        let excerpt = '';
+        
+        if (matchesContent) {
+          const contentLower = sectionContent.toLowerCase();
+          const termIndex = contentLower.indexOf(lowercaseTerm);
+          
+          if (termIndex !== -1) {
+            // Skapa excerpt runt träffen (ca 100 tecken före och efter)
+            const start = Math.max(0, termIndex - 100);
+            const end = Math.min(sectionContent.length, termIndex + lowercaseTerm.length + 100);
+            excerpt = sectionContent.slice(start, end);
+            
+            // Lägg till ellipser om vi klippte innehållet
+            if (start > 0) excerpt = '...' + excerpt;
+            if (end < sectionContent.length) excerpt = excerpt + '...';
+          } else {
+            // Använd början av innehållet om vi inte hittar termen (ovanligt men kan hända)
+            excerpt = sectionContent.slice(0, 200) + '...';
+          }
+        } else {
+          // Om vi bara matchar i titeln, visa en del av innehållet
+          excerpt = sectionContent.slice(0, 200) + '...';
+        }
+        
+        // Lägg bara till om vi inte redan lagt till denna sektion
+        if (!processedSectionIds.has(sectionId)) {
+          processedSectionIds.add(sectionId);
+          
+          // Kontrollera om sektionen finns i våra predefinerade sektioner
+          const predefinedSection = sections.find(s => s.section === sectionId);
+          
+          results.push({
+            id: predefinedSection ? predefinedSection.id : sectionId,
+            title: sectionTitle,
+            section: sectionId,
+            content: excerpt,
+            relevance: matchesTitle ? 2 : 1 // Högre relevans om termen finns i titeln
+          });
+        }
+      }
+    });
+    
+    // Sök även i de fördefinierade sektionerna (fallback)
+    sections.forEach(section => {
+      const matchesTitle = section.title.toLowerCase().includes(lowercaseTerm);
+      const matchesContent = section.content.toLowerCase().includes(lowercaseTerm);
+      
+      if ((matchesTitle || matchesContent) && !processedSectionIds.has(section.section)) {
+        processedSectionIds.add(section.section);
+        results.push({
+          ...section,
+          relevance: matchesTitle ? 2 : 1
+        });
+      }
+    });
+    
+    // Sortera efter relevans (titel-träffar först, sedan innehålls-träffar)
+    return results.sort((a, b) => b.relevance - a.relevance);
+  };
   
   // Hantera sökning
   const handleSearch = (e) => {
@@ -564,11 +743,9 @@ export const SearchModal = ({ isOpen, onClose }) => {
         
         // Sökning med kort fördröjning för bättre UX
         setTimeout(() => {
-          const filtered = sections.filter(item => 
-            item.title.toLowerCase().includes(term.toLowerCase()) || 
-            item.content.toLowerCase().includes(term.toLowerCase())
-          );
-          setSearchResults(filtered);
+          // Använd den nya DOM-baserade sökfunktionen
+          const results = searchInDOM(term);
+          setSearchResults(results);
           setIsSearching(false);
         }, 300);
       } else {
@@ -582,6 +759,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
     setSearchTerm('');
     setSearchResults([]);
     setSearchError('');
+    removeHighlightsFromPage();
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -592,12 +770,41 @@ export const SearchModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     onClose();
     
+    // Spara söktermen för att markera den på sidan
+    const termToHighlight = searchTerm;
+    
     setTimeout(() => {
+      // Ta bort eventuella tidigare markeringar först
+      removeHighlightsFromPage();
+      
       const sectionElement = document.getElementById(section);
       if (sectionElement) {
+        // Scrolla till sektionen
         sectionElement.scrollIntoView({ behavior: 'smooth' });
+        
+        // Markera visuellt sektionen för att hjälpa användaren
+        sectionElement.classList.add('search-highlight');
+        setTimeout(() => {
+          sectionElement.classList.remove('search-highlight');
+        }, 2000);
+        
+        // Markera alla förekomster av söktermen i sektionen
+        if (termToHighlight && termToHighlight.length >= 2) {
+          setTimeout(() => {
+            highlightTextInElement(sectionElement, termToHighlight);
+          }, 300);
+        }
       }
     }, 100);
+  };
+  
+  // Renderar söktermen markerad i texten
+  const renderHighlightedText = (text, term) => {
+    if (!text || !term) return text;
+    
+    // Skapa HTML-säker version av texten med markerade sökord
+    const safeHtml = highlightText(text, term);
+    return <div dangerouslySetInnerHTML={{ __html: safeHtml }} />;
   };
   
   if (!isOpen) return null;
@@ -671,8 +878,12 @@ export const SearchModal = ({ isOpen, onClose }) => {
                             href={`#${result.section}`}
                             onClick={(e) => goToSection(e, result.section)}
                           >
-                            <h4 className="result-title">{result.title}</h4>
-                            <p className="result-excerpt">{result.content}</p>
+                            <h4 className="result-title">
+                              {renderHighlightedText(result.title, searchTerm)}
+                            </h4>
+                            <div className="result-excerpt">
+                              {renderHighlightedText(result.content, searchTerm)}
+                            </div>
                           </a>
                         </li>
                       ))}
