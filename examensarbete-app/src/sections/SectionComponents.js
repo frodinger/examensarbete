@@ -104,51 +104,8 @@ export const BackgroundSection = ({ timelineEvents = [] }) => {
  * En metodsektion som beskriver tillvägagångssätt
  */
 export const MethodSection = ({ steps = [] }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchError, setSearchError] = useState('');
-  const [filteredSteps, setFilteredSteps] = useState(steps);
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
-  
-  // Uppdatera filteredSteps när steps-prop ändras
-  useEffect(() => {
-    setFilteredSteps(steps);
-  }, [steps]);
-
-  // Hantera sökning med validering
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    
-    // Validera söktermen (minst 2 tecken för sökning)
-    if (value.length > 0 && value.length < 2) {
-      setSearchError('Ange minst 2 tecken för sökning');
-    } else {
-      setSearchError('');
-      
-      // Filtrera steg baserat på söktermen
-      if (value.length >= 2) {
-        const filtered = steps.filter(item => 
-          item.title.toLowerCase().includes(value.toLowerCase()) || 
-          item.description.toLowerCase().includes(value.toLowerCase()) ||
-          (item.tools && item.tools.some(tool => 
-            tool.toLowerCase().includes(value.toLowerCase())
-          ))
-        );
-        setFilteredSteps(filtered);
-      } else {
-        // Återställ till alla steg om söktermen är tom
-        setFilteredSteps(steps);
-      }
-    }
-  };
-
-  // Rensa sökningen
-  const clearSearch = () => {
-    setSearchTerm('');
-    setSearchError('');
-    setFilteredSteps(steps);
-  };
 
   return (
     <section id="metod" className={`method-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
@@ -169,85 +126,30 @@ export const MethodSection = ({ steps = [] }) => {
             </p>
           </div>
           
-          {/* Sökfunktion för metoder */}
-          <div className="search-container">
-            <div className="search-wrapper">
-              <input
-                type="text"
-                placeholder="Sök metoder..."
-                value={searchTerm}
-                onChange={handleSearch}
-                className={`form-control ${searchError ? 'error' : ''}`}
-                aria-label="Sök metoder"
-              />
-              {searchTerm && (
-                <button 
-                  type="button" 
-                  className="search-clear" 
-                  onClick={clearSearch}
-                  aria-label="Rensa sökning"
-                >
-                  <i className="fas fa-times"></i>
-                </button>
-              )}
-              <span className="search-btn">
-                <i className="fas fa-search"></i>
-              </span>
-            </div>
-            
-            {searchError && <span className="error-message">{searchError}</span>}
-            
-            {searchTerm.length >= 2 && (
-              <div className="search-info">
-                {filteredSteps.length > 0 
-                  ? `Visar ${filteredSteps.length} av ${steps.length} metoder`
-                  : 'Inga metoder matchade din sökning'
-                }
-              </div>
-            )}
-          </div>
-          
           {/* Grid för metodsteg */}
-          {filteredSteps.length === 0 && searchTerm.length >= 2 ? (
-            <div className="no-results">
-              <p>Inga metoder matchade söktermen "{searchTerm}"</p>
-              <button className="btn btn-outline-primary mt-3" onClick={clearSearch}>
-                Visa alla metoder
-              </button>
-            </div>
-          ) : (
-            <div className="method-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-3 gap-6">
-              {filteredSteps.map((step, index) => (
-                <div key={index} className="method-card">
-                  <div className="method-card-header">
-                    <div className="step-number">{index + 1}</div>
-                    <h3 className="step-title">{step.title}</h3>
-                  </div>
-                  <div className="method-card-body">
-                    <p className="step-description">{step.description}</p>
-                    
-                    {step.tools && step.tools.length > 0 && (
-                      <div className="step-tools">
-                        <h4>Verktyg & Tekniker</h4>
-                        <ul>
-                          {step.tools.map((tool, toolIndex) => (
-                            <li key={toolIndex}>{tool}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+          <div className="method-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-3 gap-6">
+            {steps.map((step, index) => (
+              <div key={index} className="method-card">
+                <div className="method-card-header">
+                  <div className="step-number">{index + 1}</div>
+                  <h3 className="step-title">{step.title}</h3>
                 </div>
-              ))}
-            </div>
-          )}
-          
-          {/* CTA för metod-sektionen */}
-          <div className="method-cta">
-            <p>Metoderna resulterade i konkreta designlösningar för att förbättra tabellpresentationen på mobila enheter.</p>
-            <a href="#resultat" className="btn btn-primary">
-              Se resultaten <i className="fas fa-arrow-right"></i>
-            </a>
+                <div className="method-card-body">
+                  <p className="step-description">{step.description}</p>
+                  
+                  {step.tools && step.tools.length > 0 && (
+                    <div className="step-tools">
+                      <h4>Verktyg & Tekniker</h4>
+                      <ul>
+                        {step.tools.map((tool, toolIndex) => (
+                          <li key={toolIndex}>{tool}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

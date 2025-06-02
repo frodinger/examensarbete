@@ -26,6 +26,7 @@ export const Footer = () => {
 export const Navbar = ({ transparent = false, activeSection = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navbarRef = useRef(null);
 
   // Stäng menyn när användaren klickar utanför
@@ -74,6 +75,16 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
     }
   };
 
+  // Öppna sökmodalen
+  const openSearch = () => {
+    setIsSearchOpen(true);
+  };
+
+  // Stäng sökmodalen
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+  };
+
   // Navbar-klass baserad på props och scroll-tillstånd
   const navbarClass = `navbar ${isScrolled ? 'navbar-scrolled' : ''} ${transparent && !isScrolled ? 'navbar-transparent' : ''}`;
 
@@ -96,15 +107,25 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
           <a href="/" className="logo">Examensarbete</a>
         </div>
         
-        <button 
-          className={`navbar-toggle ${isOpen ? 'active' : ''}`} 
-          aria-label={isOpen ? "Stäng meny" : "Öppna meny"}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div className="navbar-actions">
+          <button 
+            className="navbar-search-btn"
+            aria-label="Sök i examensarbetet"
+            onClick={openSearch}
+          >
+            <i className="fas fa-search"></i>
+          </button>
+          
+          <button 
+            className={`navbar-toggle ${isOpen ? 'active' : ''}`} 
+            aria-label={isOpen ? "Stäng meny" : "Öppna meny"}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
         
         <div className={`navbar-menu ${isOpen ? 'open' : ''}`}>
           <ul className="navbar-nav">
@@ -127,6 +148,9 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
       </div>
       
       <ScrollIndicator />
+      
+      {/* Sökmodal */}
+      <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />
     </nav>
   );
 };
@@ -381,12 +405,13 @@ export const Modal = ({ isOpen, onClose, title, children, footer }) => {
       className={`modal-backdrop ${isOpen ? 'show' : ''}`} 
       onClick={onClose}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
           onClose();
         }
       }}
       role="button"
       tabIndex={0}
+      aria-label="Stäng sökmodal"
     >
       <div className="modal-wrapper">
         <div 
@@ -447,5 +472,441 @@ export const Hero = ({ title, subtitle, buttons, backgroundImage, overlay = fals
         </div>
       </div>
     </section>
+  );
+};
+
+// SearchModal-komponent
+export const SearchModal = ({ isOpen, onClose }) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchResults, setSearchResults] = React.useState([]);
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [searchError, setSearchError] = React.useState('');
+  const inputRef = React.useRef(null);
+  const modalRef = React.useRef(null);
+  
+  // Data för sökbara sektioner (används som fallback/komplement till DOM-sökning)
+  const sections = [
+    { id: 1, title: "Introduktion till examensarbetet", section: "introduktion", content: "Information om examensarbetets syfte och bakgrund." },
+    { id: 2, title: "Bakgrund och tidigare forskning", section: "bakgrund", content: "Forskningsbakgrund och tidigare studier inom området." },
+    { id: 3, title: "Metod och genomförande", section: "metod", content: "Beskrivning av metodik och tillvägagångssätt." },
+    { id: 4, title: "Resultat och analys", section: "resultat", content: "Presentation av resultat och analys av data." },
+    { id: 5, title: "Diskussion och reflektion", section: "reflektion", content: "Diskussion kring resultat och metodval." },
+    { id: 6, title: "Målgrupp och användare", section: "malgrupp", content: "Information om målgrupp och användarperspektiv." },
+    { id: 7, title: "Mål och syfte", section: "mal", content: "Beskrivning av arbetets mål och syfte." },
+    { id: 8, title: "Sammanfattning", section: "sammanfattning", content: "Sammanfattning av examensarbetet." },
+  ];
+  
+  // Sätt focus på sökfältet när modalen öppnas
+  React.useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+  
+  // Rensa sökning när modalen stängs
+  React.useEffect(() => {
+    if (!isOpen) {
+      setSearchTerm('');
+      setSearchResults([]);
+      setSearchError('');
+      // Ta bort eventuella markeringar på sidan
+      removeHighlightsFromPage();
+    }
+  }, [isOpen]);
+
+  // Hantera escape-tangenten för att stänga modalen
+  React.useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+  
+  // Hantera klick utanför modalen för att stänga den
+  React.useEffect(() => {
+    const handleBackdropClick = (event) => {
+      // Kontrollera om klicket är på bakgrunden (inte på själva modalen)
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+    
+    if (isOpen) {
+      document.addEventListener('mousedown', handleBackdropClick);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleBackdropClick);
+    };
+  }, [isOpen, onClose]);
+
+  // Ta bort tidigare markeringar från sidan
+  const removeHighlightsFromPage = () => {
+    // Ta bort alla markeringar som kan ha lagts till tidigare
+    const highlightedElements = document.querySelectorAll('.search-text-highlight');
+    highlightedElements.forEach(el => {
+      const parent = el.parentNode;
+      if (parent) {
+        parent.replaceChild(document.createTextNode(el.textContent || ''), el);
+        // Normalisera för att kombinera närliggande textNodes
+        parent.normalize();
+      }
+    });
+  };
+  
+  // Markera sökordet i innehållet
+  const highlightText = (text, term) => {
+    if (!term || !text) return text;
+    
+    const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(regex, '<mark class="search-text-highlight">$1</mark>');
+  };
+  
+  // Rekursivt markera text i DOM-element
+  const highlightTextInElement = (element, term) => {
+    if (!element || !term) return;
+    
+    // Hoppa över vissa element
+    if (
+      element.tagName === 'SCRIPT' || 
+      element.tagName === 'STYLE' || 
+      element.classList.contains('search-modal') || 
+      element.nodeName === 'MARK'
+    ) {
+      return;
+    }
+    
+    // Gå igenom alla barn-noder
+    Array.from(element.childNodes).forEach(node => {
+      if (node.nodeType === 3) { // Text node
+        const text = node.nodeValue;
+        if (text && text.toLowerCase().includes(term.toLowerCase())) {
+          // Skapa en temporär div för att konvertera HTML-strängen till element
+          const temp = document.createElement('div');
+          temp.innerHTML = highlightText(text, term);
+          
+          // Ersätt textnoden med de nya markerade elementen
+          const fragment = document.createDocumentFragment();
+          while (temp.firstChild) {
+            fragment.appendChild(temp.firstChild);
+          }
+          
+          if (node.parentNode) {
+            node.parentNode.replaceChild(fragment, node);
+          }
+        }
+      } else if (node.nodeType === 1) { // Element node
+        highlightTextInElement(node, term);
+      }
+    });
+  };
+  
+  // Extraktion av text från ett element och dess underliggande noder
+  const extractTextFromElement = (element) => {
+    if (!element) return '';
+    
+    // Ignorera script, style och hidden element
+    if (
+      element.tagName === 'SCRIPT' || 
+      element.tagName === 'STYLE' || 
+      element.style.display === 'none' || 
+      element.style.visibility === 'hidden'
+    ) {
+      return '';
+    }
+    
+    // Om elementet har text, extrahera den
+    let text = element.innerText || element.textContent || '';
+    
+    return text.trim();
+  };
+  
+  // Söker genom faktiskt DOM-innehåll
+  const searchInDOM = (term) => {
+    if (!term || term.length < 2) return [];
+    
+    const lowercaseTerm = term.toLowerCase();
+    const results = [];
+    const processedSectionIds = new Set();
+    
+    // Hämta alla sektioner på sidan
+    const allSections = document.querySelectorAll('section[id], div[id]');
+    
+    allSections.forEach(section => {
+      const sectionId = section.id;
+      if (!sectionId) return; // Hoppa över om ingen id
+      
+      // Sektionsnamn/titel (från rubriken eller id)
+      let sectionTitle = '';
+      const headingElement = section.querySelector('h1, h2, h3, h4, h5, h6');
+      if (headingElement) {
+        sectionTitle = headingElement.innerText || headingElement.textContent;
+      } else {
+        // Använd id som fallback och formatera den
+        sectionTitle = sectionId
+          .replace(/-/g, ' ')
+          .replace(/\b\w/g, char => char.toUpperCase());
+      }
+      
+      // Extrahera all text från sektionen
+      const sectionContent = extractTextFromElement(section);
+      
+      // Kontrollera om söktermen finns i titeln eller innehållet
+      const matchesTitle = sectionTitle.toLowerCase().includes(lowercaseTerm);
+      const matchesContent = sectionContent.toLowerCase().includes(lowercaseTerm);
+      
+      if (matchesTitle || matchesContent) {
+        // Hitta excerpt med söktermen i kontext
+        let excerpt = '';
+        
+        if (matchesContent) {
+          const contentLower = sectionContent.toLowerCase();
+          const termIndex = contentLower.indexOf(lowercaseTerm);
+          
+          if (termIndex !== -1) {
+            // Skapa excerpt runt träffen (ca 100 tecken före och efter)
+            const start = Math.max(0, termIndex - 100);
+            const end = Math.min(sectionContent.length, termIndex + lowercaseTerm.length + 100);
+            excerpt = sectionContent.slice(start, end);
+            
+            // Lägg till ellipser om vi klippte innehållet
+            if (start > 0) excerpt = '...' + excerpt;
+            if (end < sectionContent.length) excerpt = excerpt + '...';
+          } else {
+            // Använd början av innehållet om vi inte hittar termen (ovanligt men kan hända)
+            excerpt = sectionContent.slice(0, 200) + '...';
+          }
+        } else {
+          // Om vi bara matchar i titeln, visa en del av innehållet
+          excerpt = sectionContent.slice(0, 200) + '...';
+        }
+        
+        // Lägg bara till om vi inte redan lagt till denna sektion
+        if (!processedSectionIds.has(sectionId)) {
+          processedSectionIds.add(sectionId);
+          
+          // Kontrollera om sektionen finns i våra predefinerade sektioner
+          const predefinedSection = sections.find(s => s.section === sectionId);
+          
+          results.push({
+            id: predefinedSection ? predefinedSection.id : sectionId,
+            title: sectionTitle,
+            section: sectionId,
+            content: excerpt,
+            relevance: matchesTitle ? 2 : 1 // Högre relevans om termen finns i titeln
+          });
+        }
+      }
+    });
+    
+    // Sök även i de fördefinierade sektionerna (fallback)
+    sections.forEach(section => {
+      const matchesTitle = section.title.toLowerCase().includes(lowercaseTerm);
+      const matchesContent = section.content.toLowerCase().includes(lowercaseTerm);
+      
+      if ((matchesTitle || matchesContent) && !processedSectionIds.has(section.section)) {
+        processedSectionIds.add(section.section);
+        results.push({
+          ...section,
+          relevance: matchesTitle ? 2 : 1
+        });
+      }
+    });
+    
+    // Sortera efter relevans (titel-träffar först, sedan innehålls-träffar)
+    return results.sort((a, b) => b.relevance - a.relevance);
+  };
+  
+  // Hantera sökning
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    
+    // Validera söktermen (minst 2 tecken för sökning)
+    if (term.length > 0 && term.length < 2) {
+      setSearchError('Ange minst 2 tecken för sökning');
+      setSearchResults([]);
+    } else {
+      setSearchError('');
+      
+      if (term.length >= 2) {
+        setIsSearching(true);
+        
+        // Sökning med kort fördröjning för bättre UX
+        setTimeout(() => {
+          // Använd den nya DOM-baserade sökfunktionen
+          const results = searchInDOM(term);
+          setSearchResults(results);
+          setIsSearching(false);
+        }, 300);
+      } else {
+        setSearchResults([]);
+      }
+    }
+  };
+  
+  // Rensa sökningen
+  const clearSearch = () => {
+    setSearchTerm('');
+    setSearchResults([]);
+    setSearchError('');
+    removeHighlightsFromPage();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+  
+  // Navigera till sektion och stäng modal
+  const goToSection = (e, section) => {
+    e.preventDefault();
+    onClose();
+    
+    // Spara söktermen för att markera den på sidan
+    const termToHighlight = searchTerm;
+    
+    setTimeout(() => {
+      // Ta bort eventuella tidigare markeringar först
+      removeHighlightsFromPage();
+      
+      const sectionElement = document.getElementById(section);
+      if (sectionElement) {
+        // Scrolla till sektionen
+        sectionElement.scrollIntoView({ behavior: 'smooth' });
+        
+        // Markera visuellt sektionen för att hjälpa användaren
+        sectionElement.classList.add('search-highlight');
+        setTimeout(() => {
+          sectionElement.classList.remove('search-highlight');
+        }, 2000);
+        
+        // Markera alla förekomster av söktermen i sektionen
+        if (termToHighlight && termToHighlight.length >= 2) {
+          setTimeout(() => {
+            highlightTextInElement(sectionElement, termToHighlight);
+          }, 300);
+        }
+      }
+    }, 100);
+  };
+  
+  // Renderar söktermen markerad i texten
+  const renderHighlightedText = (text, term) => {
+    if (!text || !term) return text;
+    
+    // Skapa HTML-säker version av texten med markerade sökord
+    const safeHtml = highlightText(text, term);
+    return <div dangerouslySetInnerHTML={{ __html: safeHtml }} />;
+  };
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="modal-backdrop show" aria-hidden="true">
+      <div 
+        ref={modalRef}
+        className="modal search-modal show"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="search-modal-title"
+      >
+        <div className="modal-header">
+          <h2 className="modal-title" id="search-modal-title">Sök i examensarbetet</h2>
+        </div>
+        <div className="modal-body">
+          <div className="search-container">
+            <div className="search-wrapper">
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Skriv för att söka..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className={`form-control ${searchError ? 'error' : ''}`}
+                aria-label="Sök i examensarbetet"
+              />
+              {searchTerm && (
+                <button 
+                  type="button" 
+                  className="search-clear" 
+                  onClick={clearSearch}
+                  aria-label="Rensa sökning"
+                >
+                  <i className="fas fa-times"></i>
+                  <span>Rensa</span>
+                </button>
+              )}
+              <button 
+                type="button"
+                className="search-btn" 
+                onClick={() => inputRef.current?.focus()}
+                aria-label="Sökikon"
+              >
+                <i className="fas fa-search"></i>
+              </button>
+            </div>
+            
+            {searchError && <span className="error-message">{searchError}</span>}
+            
+            {searchTerm.length >= 2 && !isSearching && (
+              <div className="search-info">
+                {searchResults.length > 0 
+                  ? `Hittade ${searchResults.length} resultat för "${searchTerm}"`
+                  : `Inga resultat för "${searchTerm}"`
+                }
+              </div>
+            )}
+            
+            <div className="search-results-container">
+              {isSearching ? (
+                <div className="search-loading">Söker...</div>
+              ) : (
+                <>
+                  {searchResults.length > 0 ? (
+                    <ul className="search-results-list">
+                      {searchResults.map((result) => (
+                        <li key={result.id} className="search-result-item">
+                          <a 
+                            href={`#${result.section}`}
+                            onClick={(e) => goToSection(e, result.section)}
+                          >
+                            <h4 className="result-title">
+                              {renderHighlightedText(result.title, searchTerm)}
+                            </h4>
+                            <div className="result-excerpt">
+                              {renderHighlightedText(result.content, searchTerm)}
+                            </div>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    searchTerm.length >= 2 && (
+                      <div className="no-results">
+                        <p>Inga resultat hittades för "{searchTerm}"</p>
+                        <p>Försök med andra sökord eller kontrollera stavningen.</p>
+                      </div>
+                    )
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-outline-secondary" onClick={onClose}>
+            Stäng
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }; 
