@@ -1006,26 +1006,25 @@
     }
   }
   
-  .search-btn, 
-  .search-clear {
-    min-height: 24px; // WCAG 2.2 AA krav
-    min-width: 24px; // WCAG 2.2 AA krav
-    
-    @include focus-visible;
-  }
-  
-  .search-btn {
+  .search-icon {
     position: absolute;
     left: $spacing-3;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
     color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    pointer-events: none; /* Inga klickhändelser */
+  }
+  
+  .search-btn {
+    @extend .search-icon;
+    background: none;
+    border: none;
+    cursor: default;
+    padding: 0;
+    appearance: none;
   }
   
   .search-clear {
@@ -1044,6 +1043,12 @@
     justify-content: center;
     cursor: pointer;
     transition: all var(--transition-fast) ease;
+    
+    /* Förhindra att knappen flyttar på sig vid fokus */
+    &:focus, &:focus-visible {
+      transform: translateY(-50%); /* Behåll samma vertikal position */
+      outline-offset: 0;
+    }
     
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -1075,6 +1080,7 @@
       background-color: var(--danger-color-dark);
       border-color: var(--danger-color-dark);
       box-shadow: var(--shadow-sm);
+      transform: translateY(-50%); /* Behåll samma vertikal position */
     }
   }
   
@@ -1923,26 +1929,25 @@
     }
   }
   
-  .search-btn, 
-  .search-clear {
-    min-height: 24px; // WCAG 2.2 AA krav
-    min-width: 24px; // WCAG 2.2 AA krav
-    
-    @include focus-visible;
-  }
-  
-  .search-btn {
+  .search-icon {
     position: absolute;
     left: $spacing-3;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
     color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    pointer-events: none; /* Inga klickhändelser */
+  }
+  
+  .search-btn {
+    @extend .search-icon;
+    background: none;
+    border: none;
+    cursor: default;
+    padding: 0;
+    appearance: none;
   }
   
   .search-clear {
@@ -1961,6 +1966,12 @@
     justify-content: center;
     cursor: pointer;
     transition: all var(--transition-fast) ease;
+    
+    /* Förhindra att knappen flyttar på sig vid fokus */
+    &:focus, &:focus-visible {
+      transform: translateY(-50%); /* Behåll samma vertikal position */
+      outline-offset: 0;
+    }
     
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -1992,6 +2003,7 @@
       background-color: var(--danger-color-dark);
       border-color: var(--danger-color-dark);
       box-shadow: var(--shadow-sm);
+      transform: translateY(-50%); /* Behåll samma vertikal position */
     }
   }
   
@@ -2427,4 +2439,14 @@
 
 .skip-link {
   @include skip-link;
+}
+
+/* Lägg till en specifik klass för verkliga sökknappen om du behöver en interaktiv sökknapp */
+.search-submit-btn {
+  min-height: 24px;
+  min-width: 24px;
+  pointer-events: auto;
+  cursor: pointer;
+  
+  @include focus-visible;
 }

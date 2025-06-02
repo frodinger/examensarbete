@@ -844,14 +844,12 @@ export const SearchModal = ({ isOpen, onClose }) => {
                   <span>Rensa</span>
                 </button>
               )}
-              <button 
-                type="button"
-                className="search-btn" 
-                onClick={() => inputRef.current?.focus()}
-                aria-label="Sökikon"
+              <span 
+                className="search-icon" 
+                aria-hidden="true"
               >
                 <i className="fas fa-search"></i>
-              </button>
+              </span>
             </div>
             
             {searchError && <span className="error-message">{searchError}</span>}
