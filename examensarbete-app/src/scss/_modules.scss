@@ -1762,6 +1762,7 @@
   flex-shrink: 0;
   
   .logo {
+    font-family: var(--font-heading);
     font-weight: 700;
     font-size: $font-size-xl;
     color: var(--text-primary);
@@ -1876,6 +1877,7 @@
 }
 
 .nav-link {
+  font-family: var(--font-heading);
   color: var(--text-secondary);
   font-weight: 500;
   text-decoration: none;
@@ -1935,6 +1937,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-heading);
   background-color: var(--primary-color);
   border: 1px solid var(--primary-color);
   border-radius: $border-radius-full;
