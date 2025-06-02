@@ -22,8 +22,6 @@
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
     box-shadow: none;
-    position: relative;
-    z-index: 1;
   }
 }
 
@@ -233,7 +231,12 @@
     border-radius: $border-radius;
     transition: background-color var(--transition-fast) ease;
     
-    @include focus-visible;
+    // Egen fokushantering istället för mixin
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.2);
+    }
     
     &:hover {
       background-color: rgba(0,0,0,0.1);
@@ -597,7 +600,12 @@
       transition: none;
     }
     
-    @include focus-visible;
+    // Egen fokushantering istället för mixin
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.2);
+    }
     
     &:hover {
       color: white;
@@ -1673,281 +1681,6 @@
   }
 }
 
-/* ScrollToTop */
-.back-to-top {
-  position: fixed;
-  bottom: $spacing-6;
-  right: $spacing-6;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all var(--transition-normal) ease;
-  cursor: pointer;
-  z-index: $z-index-fixed;
-  box-shadow: var(--shadow-md);
-  
-  &.show {
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  &:hover {
-    background-color: var(--primary-color-dark);
-    transform: translateY(-3px);
-  }
-}
-
-/* ScrollIndicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  width: 0;
-  background-color: var(--primary-color);
-  transition: width var(--transition-fast) ease;
-  z-index: 1;
-}
-
-.background-section {
-  background-color: var(--bg-light);
-  padding: $spacing-16 0;
-  
-  .background-content {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-8;
-    
-    @include breakpoint(md) {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-  }
-  .background-text {
-    flex: 1;
-    
-    @include breakpoint(md) {
-      order: 1;
-      padding-right: $spacing-8;
-    }
-    
-    h3 {
-      margin-bottom: $spacing-4;
-      color: var(--text-primary);
-    }
-    
-    p {
-      color: var(--text-secondary);
-      margin-bottom: $spacing-4;
-    }
-  }
-}
-
-/* === ANIMATIONER === */
-
-// Animation för sektioner när de scrollas in i vy
-.animate-in {
-  @include pausable-animation(fadeInUp, 0.8s, ease forwards);
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Search-highlight animation */
-.search-highlight {
-  @include pausable-animation(search-highlight-pulse, 2s, ease-in-out);
-  scroll-margin-top: 100px; /* Extra utrymme från toppen för att inte hamna under navbar */
-}
-
-@keyframes search-highlight-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
-  }
-  20% {
-    box-shadow: 0 0 0 20px rgba(var(--primary-rgb), 0.1);
-  }
-  70% {
-    box-shadow: 0 0 0 20px rgba(var(--primary-rgb), 0.1);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
-  }
-}
-
-.search-text-highlight {
-  background-color: rgba(var(--primary-rgb), 0.2);
-  color: var(--primary-color-dark);
-  font-weight: bold;
-  padding: 0 2px;
-  border-radius: 2px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-/* === KNAPPAR === */
-
-// Basknapp
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: $spacing-3 $spacing-6;
-  font-weight: 500;
-  font-size: $font-size-base;
-  border-radius: $border-radius;
-  border: 1px solid transparent;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all var(--transition-fast) ease;
-  min-height: 24px; // WCAG 2.2 AA krav
-  min-width: 24px; // WCAG 2.2 AA krav
-  
-  // Fokustillstånd för tillgänglighet
-  @include focus-visible;
-  
-  // Aktiv (nedtryckt) knapp
-  &:active {
-    transform: translateY(1px);
-  }
-  
-  // Inaktiverad knapp
-  &:disabled,
-  &.disabled {
-    opacity: 0.65;
-    pointer-events: none;
-  }
-  
-  // Ikonhantering
-  i, svg {
-    margin-right: $spacing-2;
-    font-size: 0.9em;
-  }
-}
-
-// Primär knapp (färgad i primärfärgen)
-.btn-primary {
-  @include button-variant(
-    var(--primary-color), 
-    var(--text-on-primary), 
-    var(--primary-color), 
-    var(--primary-hover), 
-    var(--primary-hover)
-  );
-}
-
-// Sekundär knapp 
-.btn-secondary {
-  @include button-variant(
-    var(--secondary-color), 
-    var(--text-on-secondary), 
-    var(--secondary-color), 
-    var(--secondary-hover), 
-    var(--secondary-hover)
-  );
-}
-
-// Accent knapp
-.btn-accent {
-  @include button-variant(
-    var(--secondary-color), 
-    var(--text-on-secondary), 
-    var(--secondary-color), 
-    var(--secondary-hover), 
-    var(--secondary-hover)
-  );
-}
-
-// Ljus knapp (vit)
-.btn-light {
-  @include button-variant(
-    white, 
-    var(--primary-color), 
-    var(--border-color), 
-    var(--gray-100), 
-    var(--border-color)
-  );
-}
-
-// Outline primär knapp
-.btn-outline-primary {
-  background-color: transparent;
-  color: var(--primary-color);
-  border-color: var(--primary-color);
-  
-  &:hover, &:focus {
-    background-color: var(--primary-color);
-    color: var(--text-on-primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-}
-
-// Outline sekundär knapp
-.btn-outline-secondary {
-  background-color: transparent;
-  color: var(--secondary-color);
-  border-color: var(--secondary-color);
-  
-  &:hover, &:focus {
-    background-color: var(--secondary-color);
-    color: var(--text-on-secondary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-}
-
-// Knappstorlekar
-.btn-sm {
-  padding: $spacing-2 $spacing-4;
-  font-size: $font-size-sm;
-}
-
-.btn-lg {
-  padding: $spacing-4 $spacing-8;
-  font-size: $font-size-lg;
-}
-
-// Fullbredd knapp
-.btn-block {
-  display: block;
-  width: 100%;
-}
-
-// Rundad knapp
-.btn-rounded {
-  border-radius: $border-radius-full;
-  padding-left: $spacing-8;
-  padding-right: $spacing-8;
-  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
-  
-  @include focus-visible;
-  
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-  
-  &:hover, &:focus-visible {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-  }
-}
-
 /* === SCROLL TO TOP === */
 
 .scroll-to-top {
@@ -1980,11 +1713,12 @@
     visibility: visible;
   }
   
-  @include focus-visible;
-  
-  // Förhindra att knappen flyttar på sig vid fokus
+  // Egen fokushantering istället för mixin
   &:focus-visible {
-    transform: translateY(0); // Behåll position
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.2);
+    transform: none;
   }
   
   &:hover {
@@ -2387,4 +2121,121 @@
   cursor: pointer;
   
   @include focus-visible;
+}
+
+/* ScrollIndicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background-color: var(--primary-color);
+  transition: width var(--transition-fast) ease;
+  z-index: 1;
+}
+
+.background-section {
+  background-color: var(--bg-light);
+  padding: $spacing-16 0;
+  
+  .background-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+    
+    @include breakpoint(md) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+  .background-text {
+    flex: 1;
+    
+    @include breakpoint(md) {
+      order: 1;
+      padding-right: $spacing-8;
+    }
+    
+    h3 {
+      margin-bottom: $spacing-4;
+      color: var(--text-primary);
+    }
+    
+    p {
+      color: var(--text-secondary);
+      margin-bottom: $spacing-4;
+    }
+  }
+}
+
+/* === KNAPPAR === */
+
+// Basknapp
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3 $spacing-6;
+  font-weight: 500;
+  font-size: $font-size-base;
+  border-radius: $border-radius;
+  border: 1px solid transparent;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  min-height: 44px; // WCAG 2.2 AA krav
+  min-width: 44px; // WCAG 2.2 AA krav
+  
+  // Fokustillstånd för tillgänglighet
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.2);
+  }
+  
+  // Aktiv (nedtryckt) knapp
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  // Inaktiverad knapp
+  &:disabled,
+  &.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+  
+  // Ikonhantering
+  i, svg {
+    margin-right: $spacing-2;
+    font-size: 0.9em;
+  }
+}
+
+// Primär knapp (färgad i primärfärgen)
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+  border-color: var(--primary-color);
+  
+  &:hover, &:focus-visible {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Rundad knapp
+.btn-rounded {
+  border-radius: $border-radius-full;
+  padding-left: $spacing-8;
+  padding-right: $spacing-8;
+  
+  &:hover, &:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
 }
