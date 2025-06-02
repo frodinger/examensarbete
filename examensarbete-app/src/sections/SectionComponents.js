@@ -466,7 +466,7 @@ export const HeroSection = ({ title, subtitle, buttons = [] }) => {
                   <rect x="80" y="130" width="80" height="150" rx="4" fill="var(--primary-color-light)" fillOpacity="0.2" />
                   <rect x="180" y="290" width="160" height="40" rx="4" />
                   
-                  <circle cx="410" cy="100" r="15" fill="var(--accent-color-light)" fillOpacity="0.3" />
+                  <circle cx="410" cy="100" r="15" fill="var(--secondary-color-light)" fillOpacity="0.3" />
                   <path d="M400,100 L420,100 M410,90 L410,110" strokeLinecap="round" />
                 </g>
               </svg>

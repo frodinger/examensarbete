@@ -73,7 +73,7 @@
 /* === FÄRGER === */
 .text-primary { color: var(--primary-color); }
 .text-secondary { color: var(--secondary-color); }
-.text-accent { color: var(--accent-color); }
+.text-accent { color: var(--secondary-color); }
 .text-success { color: var(--success-color); }
 .text-warning { color: var(--warning-color); }
 .text-danger { color: var(--danger-color); }
@@ -84,7 +84,7 @@
 
 .bg-primary { background-color: var(--primary-color); }
 .bg-secondary { background-color: var(--secondary-color); }
-.bg-accent { background-color: var(--accent-color); }
+.bg-accent { background-color: var(--secondary-color); }
 .bg-success { background-color: var(--success-color); }
 .bg-warning { background-color: var(--warning-color); }
 .bg-danger { background-color: var(--danger-color); }
