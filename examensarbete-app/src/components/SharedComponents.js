@@ -26,6 +26,7 @@ export const Footer = () => {
 export const Navbar = ({ transparent = false, activeSection = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navbarRef = useRef(null);
 
   // Stäng menyn när användaren klickar utanför
@@ -74,6 +75,16 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
     }
   };
 
+  // Öppna sökmodalen
+  const openSearch = () => {
+    setIsSearchOpen(true);
+  };
+
+  // Stäng sökmodalen
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+  };
+
   // Navbar-klass baserad på props och scroll-tillstånd
   const navbarClass = `navbar ${isScrolled ? 'navbar-scrolled' : ''} ${transparent && !isScrolled ? 'navbar-transparent' : ''}`;
 
@@ -96,15 +107,25 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
           <a href="/" className="logo">Examensarbete</a>
         </div>
         
-        <button 
-          className={`navbar-toggle ${isOpen ? 'active' : ''}`} 
-          aria-label={isOpen ? "Stäng meny" : "Öppna meny"}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div className="navbar-actions">
+          <button 
+            className="navbar-search-btn"
+            aria-label="Sök i examensarbetet"
+            onClick={openSearch}
+          >
+            <i className="fas fa-search"></i>
+          </button>
+          
+          <button 
+            className={`navbar-toggle ${isOpen ? 'active' : ''}`} 
+            aria-label={isOpen ? "Stäng meny" : "Öppna meny"}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
         
         <div className={`navbar-menu ${isOpen ? 'open' : ''}`}>
           <ul className="navbar-nav">
@@ -127,6 +148,9 @@ export const Navbar = ({ transparent = false, activeSection = '' }) => {
       </div>
       
       <ScrollIndicator />
+      
+      {/* Sökmodal */}
+      <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />
     </nav>
   );
 };
@@ -381,12 +405,13 @@ export const Modal = ({ isOpen, onClose, title, children, footer }) => {
       className={`modal-backdrop ${isOpen ? 'show' : ''}`} 
       onClick={onClose}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
           onClose();
         }
       }}
       role="button"
       tabIndex={0}
+      aria-label="Stäng sökmodal"
     >
       <div className="modal-wrapper">
         <div 
@@ -447,5 +472,230 @@ export const Hero = ({ title, subtitle, buttons, backgroundImage, overlay = fals
         </div>
       </div>
     </section>
+  );
+};
+
+// SearchModal-komponent
+export const SearchModal = ({ isOpen, onClose }) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchResults, setSearchResults] = React.useState([]);
+  const [isSearching, setIsSearching] = React.useState(false);
+  const [searchError, setSearchError] = React.useState('');
+  const inputRef = React.useRef(null);
+  const modalRef = React.useRef(null);
+  
+  // Data för sökbara sektioner
+  const sections = [
+    { id: 1, title: "Introduktion till examensarbetet", section: "introduktion", content: "Information om examensarbetets syfte och bakgrund." },
+    { id: 2, title: "Bakgrund och tidigare forskning", section: "bakgrund", content: "Forskningsbakgrund och tidigare studier inom området." },
+    { id: 3, title: "Metod och genomförande", section: "metod", content: "Beskrivning av metodik och tillvägagångssätt." },
+    { id: 4, title: "Resultat och analys", section: "resultat", content: "Presentation av resultat och analys av data." },
+    { id: 5, title: "Diskussion och reflektion", section: "reflektion", content: "Diskussion kring resultat och metodval." },
+    { id: 6, title: "Målgrupp och användare", section: "malgrupp", content: "Information om målgrupp och användarperspektiv." },
+    { id: 7, title: "Mål och syfte", section: "mal", content: "Beskrivning av arbetets mål och syfte." },
+    { id: 8, title: "Sammanfattning", section: "sammanfattning", content: "Sammanfattning av examensarbetet." },
+  ];
+  
+  // Sätt focus på sökfältet när modalen öppnas
+  React.useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+  
+  // Rensa sökning när modalen stängs
+  React.useEffect(() => {
+    if (!isOpen) {
+      setSearchTerm('');
+      setSearchResults([]);
+      setSearchError('');
+    }
+  }, [isOpen]);
+
+  // Hantera escape-tangenten för att stänga modalen
+  React.useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+  
+  // Hantera klick utanför modalen för att stänga den
+  React.useEffect(() => {
+    const handleBackdropClick = (event) => {
+      // Kontrollera om klicket är på bakgrunden (inte på själva modalen)
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+    
+    if (isOpen) {
+      document.addEventListener('mousedown', handleBackdropClick);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleBackdropClick);
+    };
+  }, [isOpen, onClose]);
+  
+  // Hantera sökning
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    
+    // Validera söktermen (minst 2 tecken för sökning)
+    if (term.length > 0 && term.length < 2) {
+      setSearchError('Ange minst 2 tecken för sökning');
+      setSearchResults([]);
+    } else {
+      setSearchError('');
+      
+      if (term.length >= 2) {
+        setIsSearching(true);
+        
+        // Sökning med kort fördröjning för bättre UX
+        setTimeout(() => {
+          const filtered = sections.filter(item => 
+            item.title.toLowerCase().includes(term.toLowerCase()) || 
+            item.content.toLowerCase().includes(term.toLowerCase())
+          );
+          setSearchResults(filtered);
+          setIsSearching(false);
+        }, 300);
+      } else {
+        setSearchResults([]);
+      }
+    }
+  };
+  
+  // Rensa sökningen
+  const clearSearch = () => {
+    setSearchTerm('');
+    setSearchResults([]);
+    setSearchError('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+  
+  // Navigera till sektion och stäng modal
+  const goToSection = (e, section) => {
+    e.preventDefault();
+    onClose();
+    
+    setTimeout(() => {
+      const sectionElement = document.getElementById(section);
+      if (sectionElement) {
+        sectionElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="modal-backdrop show" aria-hidden="true">
+      <div 
+        ref={modalRef}
+        className="modal search-modal show"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="search-modal-title"
+      >
+        <div className="modal-header">
+          <h2 className="modal-title" id="search-modal-title">Sök i examensarbetet</h2>
+        </div>
+        <div className="modal-body">
+          <div className="search-container">
+            <div className="search-wrapper">
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Skriv för att söka..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className={`form-control ${searchError ? 'error' : ''}`}
+                aria-label="Sök i examensarbetet"
+              />
+              {searchTerm && (
+                <button 
+                  type="button" 
+                  className="search-clear" 
+                  onClick={clearSearch}
+                  aria-label="Rensa sökning"
+                >
+                  <i className="fas fa-times"></i>
+                  <span>Rensa</span>
+                </button>
+              )}
+              <button 
+                type="button"
+                className="search-btn" 
+                onClick={() => inputRef.current?.focus()}
+                aria-label="Sökikon"
+              >
+                <i className="fas fa-search"></i>
+              </button>
+            </div>
+            
+            {searchError && <span className="error-message">{searchError}</span>}
+            
+            {searchTerm.length >= 2 && !isSearching && (
+              <div className="search-info">
+                {searchResults.length > 0 
+                  ? `Hittade ${searchResults.length} resultat för "${searchTerm}"`
+                  : `Inga resultat för "${searchTerm}"`
+                }
+              </div>
+            )}
+            
+            <div className="search-results-container">
+              {isSearching ? (
+                <div className="search-loading">Söker...</div>
+              ) : (
+                <>
+                  {searchResults.length > 0 ? (
+                    <ul className="search-results-list">
+                      {searchResults.map((result) => (
+                        <li key={result.id} className="search-result-item">
+                          <a 
+                            href={`#${result.section}`}
+                            onClick={(e) => goToSection(e, result.section)}
+                          >
+                            <h4 className="result-title">{result.title}</h4>
+                            <p className="result-excerpt">{result.content}</p>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    searchTerm.length >= 2 && (
+                      <div className="no-results">
+                        <p>Inga resultat hittades för "{searchTerm}"</p>
+                        <p>Försök med andra sökord eller kontrollera stavningen.</p>
+                      </div>
+                    )
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-outline-secondary" onClick={onClose}>
+            Stäng
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }; 

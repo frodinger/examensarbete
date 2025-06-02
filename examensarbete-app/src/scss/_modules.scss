@@ -843,27 +843,7 @@
         }
       }
     }
-  }
-  
-  .method-cta {
-    text-align: left;
-    margin-top: $spacing-12;
-    background-color: var(--bg-card);
-    padding: $spacing-8;
-    border-radius: $border-radius-lg;
-    box-shadow: var(--shadow);
-    
-    p {
-      font-size: $font-size-lg;
-      margin-bottom: $spacing-4;
-      color: var(--text-secondary);
-    }
-    
-    .btn {
-      font-weight: 500;
-      padding: $spacing-3 $spacing-6;
-    }
-  }
+  }  
 }
 
 /* Search styles for method section */
@@ -911,24 +891,6 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-  }
-  
-  .search-clear {
-    position: absolute;
-    right: $spacing-3;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    
-    &:hover {
-      color: var(--text-primary);
-    }
   }
   
   .search-info {
@@ -1598,6 +1560,149 @@
   }
 }
 
+/* === KNAPPAR === */
+
+// Basknapp
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3 $spacing-6;
+  font-weight: 500;
+  font-size: $font-size-base;
+  border-radius: $border-radius;
+  border: 1px solid transparent;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  
+  // Fokustillstånd för tillgänglighet
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.3);
+  }
+  
+  // Aktiv (nedtryckt) knapp
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  // Inaktiverad knapp
+  &:disabled,
+  &.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+  
+  // Ikonhantering
+  i, svg {
+    margin-right: $spacing-2;
+    font-size: 0.9em;
+  }
+}
+
+// Primär knapp (färgad i primärfärgen)
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  
+  &:hover, &:focus {
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Sekundär knapp 
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+  
+  &:hover, &:focus {
+    background-color: var(--secondary-color-dark);
+    border-color: var(--secondary-color-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Accent knapp
+.btn-accent {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  
+  &:hover, &:focus {
+    background-color: var(--accent-color-dark);
+    border-color: var(--accent-color-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Ljus knapp (vit)
+.btn-light {
+  background-color: white;
+  color: var(--primary-color);
+  border-color: var(--border-color);
+  
+  &:hover, &:focus {
+    background-color: var(--gray-100);
+    color: var(--primary-color-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Outline primär knapp
+.btn-outline-primary {
+  background-color: transparent;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  
+  &:hover, &:focus {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Outline sekundär knapp
+.btn-outline-secondary {
+  background-color: transparent;
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  
+  &:hover, &:focus {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Knappstorlekar
+.btn-sm {
+  padding: $spacing-2 $spacing-4;
+  font-size: $font-size-sm;
+}
+
+.btn-lg {
+  padding: $spacing-4 $spacing-8;
+  font-size: $font-size-lg;
+}
+
+// Fullbredd knapp
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
 /* === SÖKFUNKTIONALITET === */
 
 .search-container {
@@ -1642,16 +1747,50 @@
     right: $spacing-3;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--text-muted);
+    background-color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    border-radius: $border-radius-full;
+    color: white;
+    font-size: 1rem;
+    padding: $spacing-2 $spacing-3;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all var(--transition-fast) ease;
+    
+    @include breakpoint(md) {
+      padding: $spacing-1 $spacing-3;
+      font-size: 0.9rem;
+    }
+    
+    i {
+      @media (max-width: #{map-get($breakpoints, 'md') - 1px}) {
+        margin-right: 0;
+      }
+      
+      @include breakpoint(md) {
+        margin-right: $spacing-2;
+      }
+    }
+    
+    span {
+      @media (max-width: #{map-get($breakpoints, 'md') - 1px}) {
+        display: none;
+      }
+    }
     
     &:hover {
-      color: var(--text-primary);
+      color: white;
+      background-color: var(--danger-color-dark);
+      border-color: var(--danger-color-dark);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(var(--danger-rgb), 0.3);
+      color: white;
     }
   }
   
@@ -1886,6 +2025,59 @@
   box-shadow: none;
 }
 
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+}
+
+.navbar-search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: $border-radius-full;
+  color: white;
+  font-size: 1rem;
+  padding: $spacing-2 $spacing-3;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  
+  i {
+    @media (max-width: #{map-get($breakpoints, 'md') - 1px}) {
+      margin-right: 0;
+    }
+    
+    @include breakpoint(md) {
+      margin-right: $spacing-2;
+    }
+  }
+  
+  &::after {
+    content: 'Sök';
+    font-weight: 500;
+    
+    @media (max-width: #{map-get($breakpoints, 'md') - 1px}) {
+      display: none;
+    }
+  }
+  
+  &:hover {
+    color: white;
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.3);
+    color: white;
+  }
+}
+
 /* === FOOTER === */
 .footer {
   background-color: var(--bg-card);
@@ -1908,5 +2100,75 @@
     font-size: $font-size-sm;
     color: var(--text-secondary);
     text-align: left;
+  }
+}
+
+/* Search Modal */
+.search-modal {
+  max-width: 800px;
+  width: 95%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: $spacing-5;
+  }
+  
+  .search-results-container {
+    margin-top: $spacing-4;
+    max-height: 350px;
+    overflow-y: auto;
+    border-radius: $border-radius;
+  }
+  
+  .search-loading {
+    padding: $spacing-4;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+  
+  .search-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    .search-result-item {
+      margin-bottom: $spacing-3;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: $spacing-3;
+      
+      &:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+      
+      a {
+        display: block;
+        padding: $spacing-3;
+        border-radius: $border-radius;
+        text-decoration: none;
+        transition: all var(--transition-fast) ease;
+        
+        &:hover {
+          background-color: var(--bg-light);
+        }
+      }
+      
+      .result-title {
+        color: var(--primary-color);
+        margin: 0 0 $spacing-2;
+        font-size: $font-size-base;
+        font-weight: 600;
+      }
+      
+      .result-excerpt {
+        color: var(--text-secondary);
+        margin: 0;
+        font-size: $font-size-sm;
+      }
+    }
   }
 }

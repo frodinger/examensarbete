@@ -241,14 +241,6 @@ export const MethodSection = ({ steps = [] }) => {
               ))}
             </div>
           )}
-          
-          {/* CTA för metod-sektionen */}
-          <div className="method-cta">
-            <p>Metoderna resulterade i konkreta designlösningar för att förbättra tabellpresentationen på mobila enheter.</p>
-            <a href="#resultat" className="btn btn-primary">
-              Se resultaten <i className="fas fa-arrow-right"></i>
-            </a>
-          </div>
         </div>
       </div>
     </section>
