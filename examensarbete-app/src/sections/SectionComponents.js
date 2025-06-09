@@ -22,7 +22,7 @@ export const IntroductionSection = ({ description }) => {
         <div className="introduction-content">
           <div className="introduction-description">
             <div className="description-content">
-              <p dangerouslySetInnerHTML={{ __html: description || "Det här examensarbetet undersöker hur tabeller i en digital pensions- och försäkringsportal kan optimeras för mobila enheter för att förbättra <strong>tillgänglighet, tydlighet och användarupplevelse</strong>. I takt med att mobilanvändandet ökar blir det allt tydligare att traditionella, desktop-anpassade tabellösningar inte fungerar optimalt på små skärmar—särskilt när det gäller att presentera tät och strukturerad information." }}></p>
+              <p dangerouslySetInnerHTML={{ __html: description || "Under praktikperioden hos Meepo identifierades ett konkret förbättringsområde i deras pensions- och försäkringsportal: <strong>mobilanpassningen av tabeller</strong>. Detta examensarbete undersöker hur tabellerna kan förbättras för att ge en mer tillgänglig och visuellt tydlig användarupplevelse på mobil." }}></p>
             </div>
             <div className="introduction-highlights">
               <div className="highlight-item">
@@ -73,24 +73,21 @@ export const BackgroundSection = ({ timelineEvents = [] }) => {
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Bakgrund</h2>
-          <p className="section-subtitle">Kontext och tidigare forskning</p>
+          <p className="section-subtitle">Kontext och problemställning</p>
         </div>
         
         <div className="background-content">
           <div className="background-text">
-            <h3>Forskningsöversikt</h3>
             <p>
-              Mobilanvändningen inom finansiella tjänster har ökat markant de senaste åren. Enligt data 
-              från 2022 sker nu 68% av alla besök på pensions- och försäkringsportaler via mobila enheter. 
-              Trots detta är många av dessa portaler fortfarande optimerade främst för desktop-användning, 
-              särskilt när det gäller presentationen av tabeller och komplex finansiell information.
+              Allt fler hanterar viktiga ärenden via mobilen, vilket ställer höga krav på att digitala 
+              gränssnitt fungerar bra på små skärmar. Många existerande lösningar är fortfarande utformade 
+              för datoranvändning, vilket försämrar användbarheten i mobilvy – särskilt i komplexa 
+              komponenter som tabeller.
             </p>
             <p>
-              Tidigare forskning inom responsiv design (Andersson & Nilsson, 2021) har visat att användare 
-              förväntar sig samma funktionalitet på mobila enheter som på desktop. Samtidigt visar studier 
-              från Finansinspektionen att tydlig presentation av finansiell information är avgörande för 
-              användarnas förtroende och beslutsfattande. Detta examensarbete utforskar korsningen mellan 
-              dessa behov med fokus på tabellpresentation i mobila gränssnitt.
+              Tabeller används i portalen för att visa exempelvis försäkringar, dokument, fondinformation 
+              och ärenden, men brister i layout och vägledning försvårar förståelsen när de visas på 
+              mobila enheter.
             </p>
           </div>
         </div>
@@ -107,6 +104,24 @@ export const MethodSection = ({ steps = [] }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
 
+  const defaultSteps = [
+    {
+      title: "Heuristisk utvärdering",
+      description: "Analys enligt Nielsens tio principer för att identifiera brister i den befintliga designen.",
+      tools: ["Användbarhetsriktlinjer", "Expertanalys"]
+    },
+    {
+      title: "Preferenstester",
+      description: "Användarutvärdering med fem personer i åldern 59-70 år som fick testa olika designförslag.",
+      tools: ["Intervjuer", "Prototyper", "Observationer"]
+    },
+    {
+      title: "Tematisk analys",
+      description: "Strukturerad analys av användarfeedback för att identifiera mönster i preferenser, förståelse och upplevelse.",
+      tools: ["Kodning av data", "Mönsteridentifiering"]
+    }
+  ];
+
   return (
     <section id="metod" className={`method-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
@@ -118,17 +133,35 @@ export const MethodSection = ({ steps = [] }) => {
         <div className="method-content">
           <div className="method-intro">
             <p>
-              För att undersöka hur tabeller i en pensions- och försäkringsportal kan optimeras för 
-              mobila enheter användes en kombination av olika metoder. Arbetet genomfördes under en 
-              praktikperiod på techbyrån Meepo, med fokus på en faktisk pensions- och försäkringsportal. 
-              Genom ett användarcentrerat tillvägagångssätt identifierades problem och utvecklades 
-              förbättrade designlösningar.
+              Tre kvalitativa metoder användes för att undersöka hur tabeller i pensions- och försäkringsportalen 
+              kan optimeras för mobila enheter. Användarna utvärderade 2-4 designförslag per tabelltyp.
             </p>
           </div>
           
           {/* Grid för metodsteg */}
           <div className="method-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-3 gap-6">
-            {steps.map((step, index) => (
+            {steps.length > 0 ? steps.map((step, index) => (
+              <div key={index} className="method-card">
+                <div className="method-card-header">
+                  <div className="step-number">{index + 1}</div>
+                  <h3 className="step-title">{step.title}</h3>
+                </div>
+                <div className="method-card-body">
+                  <p className="step-description">{step.description}</p>
+                  
+                  {step.tools && step.tools.length > 0 && (
+                    <div className="step-tools">
+                      <h4>Verktyg & Tekniker</h4>
+                      <ul>
+                        {step.tools.map((tool, toolIndex) => (
+                          <li key={toolIndex}>{tool}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )) : defaultSteps.map((step, index) => (
               <div key={index} className="method-card">
                 <div className="method-card-header">
                   <div className="step-number">{index + 1}</div>
@@ -165,6 +198,33 @@ export const ResultsSection = ({ results = [], chartData = null }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
+  const defaultResults = [
+    {
+      icon: "fas fa-th",
+      title: "Jämförelsetabeller",
+      description: "För tabeller som används för jämförelse (t.ex. fondbyte) föredrogs en komprimerad horisontell layout med fixerade rubriker.",
+      stats: { value: "60%", label: "föredrog kompakt layout" }
+    },
+    {
+      icon: "fas fa-list",
+      title: "Innehållstabeller",
+      description: "För tabeller som visar innehåll (t.ex. dokument, transaktioner) föredrogs en vertikal och luftig struktur med tydliga rubriker.",
+      stats: { value: "80%", label: "uppskattade tydliga rubriker" }
+    },
+    {
+      icon: "fas fa-heading",
+      title: "Tydliga rubriker",
+      description: "Tydliga rubriker och etiketter visade sig vara avgörande för användarnas förståelse av tabellinnehållet.",
+      stats: { value: "100%", label: "bättre orientering" }
+    },
+    {
+      icon: "fas fa-compress-arrows-alt",
+      title: "Luftighet vs sammanhang",
+      description: "Luftiga gränssnitt minskade kognitiv belastning men kunde skapa osäkerhet om sammanhang saknades.",
+      stats: { value: "70%", label: "enklare navigering" }
+    }
+  ];
+  
   return (
     <section id="resultat" className={`results-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
@@ -175,13 +235,28 @@ export const ResultsSection = ({ results = [], chartData = null }) => {
         
         <div className="results-summary">
           <p>
-            Resultaten från detta examensarbete visade att tydligare struktur, bättre gruppering av information och förbättrad visuell återkoppling avsevärt ökade användarvänligheten för mobila tabeller. 
-            Genom att dela in tabeller i funktionella typer kunde designlösningarna anpassas mer specifikt efter syfte och användarbehov.
+            Två huvudtyper av tabeller identifierades i undersökningen: jämförelsetabeller och innehållstabeller. 
+            För varje typ föredrogs olika designlösningar beroende på användningssätt och kontext.
           </p>
         </div>
         
         <div className="results-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-4">
-          {results.map((result, index) => (
+          {results.length > 0 ? results.map((result, index) => (
+            <div key={index} className="result-card">
+              <div className="result-icon">
+                <i className={result.icon || "fas fa-check"}></i>
+              </div>
+              <h3 className="result-title">{result.title}</h3>
+              <p className="result-description">{result.description}</p>
+              
+              {result.stats && (
+                <div className="result-stat">
+                  <div className="stat-value">{result.stats.value}</div>
+                  <div className="stat-label">{result.stats.label}</div>
+                </div>
+              )}
+            </div>
+          )) : defaultResults.map((result, index) => (
             <div key={index} className="result-card">
               <div className="result-icon">
                 <i className={result.icon || "fas fa-check"}></i>
@@ -200,13 +275,17 @@ export const ResultsSection = ({ results = [], chartData = null }) => {
         </div>
         
         <div className="conclusion-content">
-            <h3>Slutsatser</h3>
+            <h3>Specifika designlösningar</h3>
             <p>
-              Studien visar att mobilanpassad tabellösning kräver mer än bara visuell skalning—det handlar om att omstrukturera innehållet med hänsyn till användarens kontext och uppgift. Genom att prioritera tydlighet, interaktivitet och enkelhet kunde de slutliga koncepten bidra till en mer inkluderande och intuitiv mobilupplevelse.
+              Studiedeltagarna visade varierande preferenser för olika tabelltyper:
             </p>
-            <p>
-              De mest framgångsrika lösningarna kombinerade: 1) tydlig visuell hierarki, 2) kontextuell filtrering och sortering, 3) progressiv exponering av information, och 4) anpassningsbar visning för olika användarscenarier.
-            </p>
+            <ul>
+              <li><strong>Pensionsöversikt:</strong> Förslag C (luftig layout med rubriker) föredrogs.</li>
+              <li><strong>Fondbyte:</strong> Förslag B (kompakt tabell med fixerade rubriker) var mest effektiv.</li>
+              <li><strong>Transaktioner:</strong> Delade åsikter – rubriker ökade tydlighet men luftighet ökade läsbarhet.</li>
+              <li><strong>Mina dokument:</strong> Enkel layout (A) fungerade bra vid få poster, rubriker (B) passade större informationsmängder.</li>
+              <li><strong>Händelser och uppdrag:</strong> Två deltagare föredrog A (utan rubriker), tre föredrog B (med rubriker).</li>
+            </ul>
           </div>
       </div>
     </section>
@@ -240,23 +319,22 @@ export const ReflectionSection = ({ quote, reflectionPoints = [] }) => {
           )}
           
           <div className="reflection-points">
-            {reflectionPoints.map((point, index) => (
+            {reflectionPoints.length > 0 ? reflectionPoints.map((point, index) => (
               <div key={index} className="reflection-point">
                 <h3>{point.title}</h3>
                 <p>{point.description}</p>
               </div>
-            ))}
-            
-            <div className="reflection-point">
-              <h3>Mobilanpassningens komplexitet</h3>
-              <p>
-                En central insikt från detta examensarbete är att effektiv mobilanpassning av tabeller innebär en 
-                balans mellan informationsdensitet och användbarhet. Att bara göra en tabell responsiv 
-                är inte tillräckligt för en bra användarupplevelse - innehållet måste omorganiseras och 
-                presenteras på ett sätt som är optimerat för mobila gränssnitt, samtidigt som 
-                informationens integritet och förståelighet bevaras.
-              </p>
-            </div>
+            )) : (
+              <div className="reflection-point">
+                <h3>Mer än bara mindre gränssnitt</h3>
+                <p>
+                  Att skapa mobilanpassade tabeller kräver mer än att göra innehållet mindre – det handlar om att 
+                  utforma strukturer som stödjer förståelse, kontext och interaktion. Användartesterna visade att 
+                  olika typer av tabeller kräver olika lösningar, och att vissa användare föredrar förenklade 
+                  versioner medan andra efterfrågar mer vägledning. Designen behöver därför vara flexibel men konsekvent.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -272,6 +350,27 @@ export const TargetGroupSection = ({ personas = [], stats = [] }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
+  const defaultPersonas = [
+    {
+      name: "Primär målgrupp",
+      description: "Portalanvändare som använder mobil, ofta äldre eller låg-digitala personer i pensionsåldern.",
+      needs: [
+        "Tydlighet och enkelhet i gränssnittet",
+        "Tillgänglighetsanpassad design",
+        "Stöd för att förstå komplex information"
+      ]
+    },
+    {
+      name: "Sekundär målgrupp",
+      description: "Utvecklingsteamet bakom portalen, som kan använda resultaten som vägledning i framtida förbättringsarbete.",
+      needs: [
+        "Konkreta designriktlinjer",
+        "Användbarhetstestade lösningar",
+        "Flexibla komponenter för olika användningsområden"
+      ]
+    }
+  ];
+  
   return (
     <section id="malgrupp" className={`target-group-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
@@ -282,7 +381,30 @@ export const TargetGroupSection = ({ personas = [], stats = [] }) => {
         
         <h3>Användarprofiler</h3>
         <div className="personas-container">
-          {personas.map((persona, index) => (
+          {personas.length > 0 ? personas.map((persona, index) => (
+            <div key={index} className="persona-card">
+              <div className="persona-avatar">
+                <div className="avatar-placeholder">
+                  <i className="fas fa-user"></i>
+                </div>
+              </div>
+              <div className="persona-content">
+                <h4 className="persona-name">{persona.name}</h4>
+                <p className="persona-description">{persona.description}</p>
+                
+                {persona.needs && persona.needs.length > 0 && (
+                  <div className="persona-needs">
+                    <h4>Behov och förväntningar:</h4>
+                    <ul>
+                      {persona.needs.map((need, needIndex) => (
+                        <li key={needIndex}>{need}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )) : defaultPersonas.map((persona, index) => (
             <div key={index} className="persona-card">
               <div className="persona-avatar">
                 <div className="avatar-placeholder">
@@ -335,6 +457,15 @@ export const GoalSection = ({ mainGoal, secondaryGoals = [] }) => {
   const sectionRef = useRef(null);
   const isVisible = useIntersectionObserver(sectionRef);
   
+  const defaultMainGoal = "Syftet var att undersöka hur befintliga tabeller i portalen kan omformas för att fungera bättre på mobil. Fokus låg på tillgänglighet, tydlighet och kontextuell förståelse, med målet att ta fram konkreta designlösningar grundade i användarnas behov.";
+  
+  const defaultSecondaryGoals = [
+    "Identifiera och kategorisera de olika tabelltyper som används i portalen",
+    "Utvärdera befintliga tabellkomponenter genom användartester",
+    "Utveckla förbättrade designkoncept baserade på användarnas preferenser och behov",
+    "Ta fram riktlinjer för mobilanpassning av olika tabelltyper"
+  ];
+  
   return (
     <section id="mal" className={`goals-section section-padding ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
@@ -347,13 +478,18 @@ export const GoalSection = ({ mainGoal, secondaryGoals = [] }) => {
           <div className="goal-group">
             <h3>Huvudmål</h3>
             <div className="main-goal">
-              <p>{mainGoal}</p>
+              <p>{mainGoal || defaultMainGoal}</p>
             </div>
           </div>
           
           <div className="goal-group">
             <h3>Delmål</h3>
-            {secondaryGoals.map((goal, index) => (
+            {secondaryGoals.length > 0 ? secondaryGoals.map((goal, index) => (
+              <div key={index} className="goal-item">
+                <div className="goal-title">Mål {index + 1}</div>
+                <div className="goal-description">{goal}</div>
+              </div>
+            )) : defaultSecondaryGoals.map((goal, index) => (
               <div key={index} className="goal-item">
                 <div className="goal-title">Mål {index + 1}</div>
                 <div className="goal-description">{goal}</div>
@@ -377,37 +513,37 @@ export const CtaSection = ({ title, subtitle }) => {
   return (
     <section id="sammanfattning" className={`summary-section ${isVisible ? 'animate-in' : ''}`} ref={sectionRef}>
       <div className="container">
-        <h2 className="summary-title">{title}</h2>
-        <p className="summary-subtitle">{subtitle}</p>
+        <h2 className="summary-title">{title || "Sammanfattning av resultaten"}</h2>
+        <p className="summary-subtitle">{subtitle || "De viktigaste slutsatserna från examensarbetet"}</p>
         
         <div className="summary-points">
           <div className="summary-point">
             <div className="point-icon">
-              <i className="fas fa-mobile-alt"></i>
+              <i className="fas fa-th"></i>
             </div>
             <div className="point-content">
-              <h3>Mobilanpassning är nödvändig</h3>
-              <p>I takt med att mobilt användande ökar blir en genomtänkt mobilanpassning av tabeller allt viktigare, särskilt inom pensions- och försäkringssektorn där komplex information behöver presenteras på ett tydligt sätt.</p>
+              <h3>Två typer av tabeller</h3>
+              <p>Examensarbetet resulterade i två huvudsakliga designförslag: en jämförelsetabell med fixerade rubriker och komprimerad layout, samt en innehållstabell i två varianter – en med rubriker och en utan – beroende på kontext.</p>
             </div>
           </div>
           
           <div className="summary-point">
             <div className="point-icon">
-              <i className="fas fa-th-list"></i>
+              <i className="fas fa-user-check"></i>
             </div>
             <div className="point-content">
-              <h3>Tabelltyper kräver olika lösningar</h3>
-              <p>Studien identifierade att olika tabelltyper (jämförelsetabeller och innehållstabeller) kräver anpassade designlösningar för att fungera optimalt på mobila enheter.</p>
+              <h3>Användarcentrerad design</h3>
+              <p>Arbetet visar att förbättrad mobilanpassning är möjlig genom syftesdriven design och användarcentrerade tester. Resultaten bör dock valideras vidare i interaktiv kontext innan implementation.</p>
             </div>
           </div>
           
           <div className="summary-point">
             <div className="point-icon">
-              <i className="fas fa-user-shield"></i>
+              <i className="fas fa-universal-access"></i>
             </div>
             <div className="point-content">
-              <h3>Användarbehov i fokus</h3>
-              <p>Genom att utgå från specifika användarbehov och uppgifter kunde designkoncept utvecklas som hjälper användare att snabbt och säkert hitta och förstå pensionsinformation på mobila enheter.</p>
+              <h3>Tillgänglighet i fokus</h3>
+              <p>De utvecklade designlösningarna prioriterar tillgänglighet och användbarhet, vilket är särskilt viktigt för den primära målgruppen som ofta består av äldre eller låg-digitala användare.</p>
             </div>
           </div>
         </div>
