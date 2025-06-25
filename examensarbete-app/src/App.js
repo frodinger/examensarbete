@@ -124,7 +124,7 @@ function App() {
   const reflectionData = {
     quote: {
       text: "Mobilanpassad tabellösning kräver mer än bara visuell skalning—det handlar om att omstrukturera innehållet med hänsyn till användarens kontext och uppgift.",
-      author: "Examensarbete 2023"
+      author: "Examensarbete 2025"
     },
     reflectionPoints: [
       {
