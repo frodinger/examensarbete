@@ -1952,7 +1952,7 @@
       margin-right: 0;
     }
     
-    @include breakpoint(lg) {
+    @include breakpoint(sm) {
       margin-right: $spacing-2;
     }
   }
@@ -1961,7 +1961,7 @@
     content: 'Sök';
     font-weight: 500;
     
-    @media (max-width: #{map-get($breakpoints, 'lg') - 1px}) {
+    @media (max-width: #{map-get($breakpoints, 'sm') - 1px}) {
       display: none;
     }
   }
