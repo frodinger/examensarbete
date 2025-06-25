@@ -26,7 +26,7 @@ export const IntroductionSection = ({ description }) => {
             </div>
             <div className="introduction-highlights">
               <div className="highlight-item">
-                <div className="highlight-icon">
+                <div aria-hidden="true" className="highlight-icon">
                   <i className="fas fa-mobile-alt"></i>
                 </div>
                 <div className="highlight-content">
@@ -35,7 +35,7 @@ export const IntroductionSection = ({ description }) => {
                 </div>
               </div>
               <div className="highlight-item">
-                <div className="highlight-icon">
+                <div aria-hidden="true" className="highlight-icon">
                   <i className="fas fa-table"></i>
                 </div>
                 <div className="highlight-content">
@@ -44,7 +44,7 @@ export const IntroductionSection = ({ description }) => {
                 </div>
               </div>
               <div className="highlight-item">
-                <div className="highlight-icon">
+                <div aria-hidden="true" className="highlight-icon">
                   <i className="fas fa-user-shield"></i>
                 </div>
                 <div className="highlight-content">
@@ -243,7 +243,7 @@ export const ResultsSection = ({ results = [], chartData = null }) => {
         <div className="results-grid grid-cols-1 grid-cols-md-2 grid-cols-lg-4">
           {results.length > 0 ? results.map((result, index) => (
             <div key={index} className="result-card">
-              <div className="result-icon">
+              <div aria-hidden="true" className="result-icon">
                 <i className={result.icon || "fas fa-check"}></i>
               </div>
               <h3 className="result-title">{result.title}</h3>
@@ -258,7 +258,7 @@ export const ResultsSection = ({ results = [], chartData = null }) => {
             </div>
           )) : defaultResults.map((result, index) => (
             <div key={index} className="result-card">
-              <div className="result-icon">
+              <div aria-hidden="true" className="result-icon">
                 <i className={result.icon || "fas fa-check"}></i>
               </div>
               <h3 className="result-title">{result.title}</h3>
@@ -384,7 +384,7 @@ export const TargetGroupSection = ({ personas = [], stats = [] }) => {
           {personas.length > 0 ? personas.map((persona, index) => (
             <div key={index} className="persona-card">
               <div className="persona-avatar">
-                <div className="avatar-placeholder">
+                <div aria-hidden="true" className="avatar-placeholder">
                   <i className="fas fa-user"></i>
                 </div>
               </div>
@@ -407,7 +407,7 @@ export const TargetGroupSection = ({ personas = [], stats = [] }) => {
           )) : defaultPersonas.map((persona, index) => (
             <div key={index} className="persona-card">
               <div className="persona-avatar">
-                <div className="avatar-placeholder">
+                <div aria-hidden="true" className="avatar-placeholder">
                   <i className="fas fa-user"></i>
                 </div>
               </div>
@@ -435,7 +435,7 @@ export const TargetGroupSection = ({ personas = [], stats = [] }) => {
           <div className="stats-grid">
             {stats.map((stat, index) => (
               <div key={index} className="stat-card">
-                <div className="stat-icon">
+                <div aria-hidden="true" className="stat-icon">
                   <i className={stat.icon || "fas fa-percentage"}></i>
                 </div>
                 <div className="stat-value">{stat.value}</div>
@@ -518,7 +518,7 @@ export const CtaSection = ({ title, subtitle }) => {
         
         <div className="summary-points">
           <div className="summary-point">
-            <div className="point-icon">
+            <div aria-hidden="true" className="point-icon">
               <i className="fas fa-th"></i>
             </div>
             <div className="point-content">
@@ -528,7 +528,7 @@ export const CtaSection = ({ title, subtitle }) => {
           </div>
           
           <div className="summary-point">
-            <div className="point-icon">
+            <div aria-hidden="true" className="point-icon">
               <i className="fas fa-user-check"></i>
             </div>
             <div className="point-content">
@@ -538,7 +538,7 @@ export const CtaSection = ({ title, subtitle }) => {
           </div>
           
           <div className="summary-point">
-            <div className="point-icon">
+            <div aria-hidden="true" className="point-icon">
               <i className="fas fa-universal-access"></i>
             </div>
             <div className="point-content">
@@ -583,7 +583,7 @@ export const HeroSection = ({ title, subtitle, buttons = [] }) => {
             )}
           </div>
           
-          <div className="hero-graphic">
+          <div aria-hidden="true" className="hero-graphic">
             <div className="hero-graphic-bg"></div>
             <div className="hero-graphic-element">
               <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">

@@ -68,7 +68,3 @@ För att anpassa innehållet:
 - `npm start` - Starta utvecklingsserver
 - `npm test` - Kör tester
 - `npm run build` - Bygg produktionsversion
-
-## Licens
-
-Detta projekt är licensierat under MIT-licensen.
